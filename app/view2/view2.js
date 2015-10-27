@@ -25,4 +25,24 @@ angular.module('myApp.view2', ['ngRoute'])
   r.click( function() { r.attr('fill', 'yellow') } );     
   s.text(200,100, 'Click An Object').attr({'fill' : 'blue',  'stroke': 'blue', 'stroke-width': 0.2 });
 
+  
+  var si = Snap("#svgout");
+  var rect = si.rect(20,20,40,40);
+  var circle = si.circle(60,150,50);
+  var move = function(dx,dy) {
+        this.attr({
+                    transform: this.data('origTransform') + (this.data('origTransform') ? "T" : "t") + [dx, dy]
+                });
+  }
+
+  var start = function() {
+        this.data('origTransform', this.transform().local );
+  }
+  var stop = function() {
+        console.log('finished dragging');
+  }
+
+  rect.drag(move, start, stop );
+  circle.drag(move, start, stop );  
+
 }]);
