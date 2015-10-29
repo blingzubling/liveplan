@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg4084"
+   version="1.1"
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="topplan.svg">
+  <defs
+     id="defs4086">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient3755">
+      <stop
+         style="stop-color:#cccccc;stop-opacity:1;"
+         offset="0"
+         id="stop3757" />
+      <stop
+         style="stop-color:#cccccc;stop-opacity:0;"
+         offset="1"
+         id="stop3759" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3755"
+       id="linearGradient4156"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.80482882,0,0,0.70765968,88.263008,98.201104)"
+       x1="94.449265"
+       y1="80.595436"
+       x2="94.449265"
+       y2="24.475119" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.6"
+     inkscape:cx="224.37559"
+     inkscape:cy="951.57516"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1223"
+     inkscape:window-height="726"
+     inkscape:window-x="59"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata4089">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g4148"
+       transform="matrix(1.1730481,0,0,1.2456875,-85.451864,-41.258957)">
+      <rect
+         y="112.34459"
+         x="104.11651"
+         height="45.035187"
+         width="129.26698"
+         id="rect2985"
+         style="fill:url(#linearGradient4156);fill-opacity:1;stroke:#e1e1e1;stroke-width:0.75468206;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text3775"
+         y="124.95584"
+         x="212.61617"
+         style="font-size:9.90287781px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#800080;fill-opacity:1;stroke:none;font-family:Segoe UI;-inkscape-font-specification:Segoe UI Bold"
+         xml:space="preserve"><tspan
+           y="124.95584"
+           x="212.61617"
+           id="tspan3777"
+           sodipodi:role="line">A</tspan></text>
+      <a
+         xlink:href="Plan2.svg"
+         id="a4144"
+         target="_self">
+        <text
+           xml:space="preserve"
+           style="font-size:7.42715883px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Segoe UI;-inkscape-font-specification:Segoe UI"
+           x="109.0659"
+           y="124.8688"
+           id="text3967"
+           sodipodi:linespacing="125%"
+           onclick="openSubplan()"><tspan
+             sodipodi:role="line"
+             id="tspan3969"
+             x="109.0659"
+             y="124.8688">quickGIT plan </tspan></text>
+      </a>
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:10px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Segoe UI;-inkscape-font-specification:Segoe UI"
+       x="13.75"
+       y="24.738138"
+       id="text4203"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="13.75"
+         y="24.738138"
+         id="tspan4205"><tspan
+           x="13.75"
+           y="24.738138"
+           style="font-size:16px;font-weight:bold;-inkscape-font-specification:Segoe UI Bold"
+           id="tspan4207">Topplan</tspan><tspan
+           dx="0"
+           x="75.65625"
+           y="24.738138"
+           style="font-size:16px;font-weight:bold;-inkscape-font-specification:Segoe UI Bold"
+           id="tspan4209" /></tspan><tspan
+         sodipodi:role="line"
+         x="13.75"
+         y="39.633213"
+         id="tspan4211"><tspan
+           x="13.75"
+           y="39.633213"
+           id="tspan4213">Process plan: Mass [kg]</tspan><tspan
+           dx="0"
+           x="115.95703"
+           y="39.633213"
+           id="tspan4215" /></tspan><tspan
+         sodipodi:role="line"
+         x="13.75"
+         y="52.133213"
+         id="tspan4217"><tspan
+           x="13.75"
+           y="52.133213"
+           id="tspan4219">The names of the basic processes are shown</tspan></tspan></text>
+  </g>
+</svg>
