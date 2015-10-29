@@ -58,12 +58,14 @@ angular.module('myApp.view3', ['ngRoute'])
   var michelangelo = function(planJson){
       var s = Snap("#owPlan");
       
+      s.text( 10, 30, planJson["name"] );
+      s.text( 20, 60, $scope.aPlan["name"] );      
   }
   
   var fetch = function($scope, $http){
     $http.get('data/{D57CCB0C-9E31-44BD-9A3C-F729891B56DF}.json').success(
       function(data) {
-        $scope.phones = data;
+        $scope.aPlan = data;
         michelangelo(data);
       }
     );
