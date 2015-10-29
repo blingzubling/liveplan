@@ -47,23 +47,12 @@ angular.module('myApp.view3', ['ngRoute'])
   first(); 
 
   
-  var si = Snap("#svgout");
-  var rect = si.rect(20,20,40,40);
-  var circle = si.circle(60,150,50);
-  var move = function(dx,dy) {
-        this.attr({
-                    transform: this.data('origTransform') + (this.data('origTransform') ? "T" : "t") + [dx, dy]
-                });
+  var second = function(){
+    var si = Snap("#svgout");    
+    var tux = Snap.load("data/map.svg", function ( loadedFragment ) {
+                                                si.append( loadedFragment );
+                                        } );
   }
-
-  var start = function() {
-        this.data('origTransform', this.transform().local );
-  }
-  var stop = function() {
-        console.log('finished dragging');
-  }
-
-  rect.drag(move, start, stop );
-  circle.drag(move, start, stop );  
+  second(); 
 
 }]);
