@@ -9,7 +9,7 @@ angular.module('myApp.view3', ['ngRoute'])
   });
 }])
 
-.controller('View3Ctrl', [function() {
+.controller('View3Ctrl', ['$scope', '$http', function($scope, $http) {
   // var s = Snap("#blackboard"); 
   //lets draw 2 rects at position 100,100 and then reposition them
   // var r = s.rect(100,100,100,100,20,20).attr({ stroke: '#123456', 'strokeWidth': 20, fill: 'red', 'opacity': 0.2 });
@@ -55,4 +55,18 @@ angular.module('myApp.view3', ['ngRoute'])
   }
   second(); 
 
+  var michelangelo = function(planJson){
+      var s = Snap("#owPlan");
+      
+  }
+  
+  var fetch = function($scope, $http){
+    $http.get('data/{D57CCB0C-9E31-44BD-9A3C-F729891B56DF}.json').success(
+      function(data) {
+        $scope.phones = data;
+        michelangelo(data);
+      }
+    );
+  }
+  fetch($scope, $http);
 }]);
