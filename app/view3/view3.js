@@ -66,8 +66,8 @@ angular.module('myApp.view3', ['ngRoute'])
 		piJson["width"],
 		piJson["height"]).attr( {
 			stroke: "#e1e1e1",
-			"stroke-width": "0.75468",
-			fill: "#cccccc"
+			"stroke-width": "0.75468",			
+			fill: "url(#linearGradient4156)"
 		} );
 	pi.drag();
   }
