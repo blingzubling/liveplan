@@ -55,11 +55,36 @@ angular.module('myApp.view3', ['ngRoute'])
   }
   second(); 
 
+  
+  
+  var paintProcessInst = function(piJson){
+	var s = Snap("#owPlan");
+	
+	var pi = s.rect(		
+		piJson["left"],
+		piJson["top"],
+		piJson["width"],
+		piJson["height"]).attr( {
+			stroke: "#e1e1e1",
+			"stroke-width": "0.75468",
+			fill: "#cccccc"
+		} );
+	pi.drag();
+  }
+  
   var michelangelo = function(planJson){
       var s = Snap("#owPlan");
       
-      s.text( 10, 30, planJson["name"] );
-      s.text( 20, 60, $scope.aPlan["name"] );      
+      var strPlanName = s.text( 15, 15, planJson["name"] ).attr({
+			"font-size": "16pt",
+			"font-style": "normal",
+			"font-weight": "normal",
+			"text-anchor": "start",
+			"fill": "#000000",
+			"font-family": "Segoe UI"			
+			});
+
+	  _.map( planJson["processInstances"], paintProcessInst );
   }
   
   var fetch = function($scope, $http){
