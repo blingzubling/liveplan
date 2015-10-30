@@ -54,22 +54,30 @@ angular.module('myApp.view3', ['ngRoute'])
                                         } );
   }
   second(); 
-
   
   
   var paintProcessInst = function(piJson){
-	var s = Snap("#owPlan");
+    var s = Snap("#owPlan");
 	
-	var pi = s.rect(		
-		piJson["left"],
-		piJson["top"],
-		piJson["width"],
-		piJson["height"]).attr( {
-			stroke: "#e1e1e1",
-			"stroke-width": "0.75468",			
-			fill: "url(#linearGradient4156)"
-		} );
-	pi.drag();
+    var pi = s.rect(		
+      piJson["left"],
+      piJson["top"],
+      piJson["width"],
+      piJson["height"]).attr( {
+        stroke: "#e1e1e1",
+        "stroke-width": "0.75468",			
+        fill: "url(#linearGradient4156)"
+      } );
+    pi.drag();
+  }
+
+  var paintFlowInst = function(fiJson){
+    var s = Snap("#owPlan");
+    
+    $scope.sorted = fiJson["points"].sort(function(left,right){
+                                            var sortOrder = [0,2,1];
+                                            return sortOrder[left.pointType] - sortOrder[right.pointType];
+                                          });    
   }
   
   var michelangelo = function(planJson){
@@ -83,7 +91,8 @@ angular.module('myApp.view3', ['ngRoute'])
 			"fill": "#000000",
 			"font-family": "Segoe UI"			
 			});
-
+      
+    _.map( planJson["flowInstances"], paintFlowInst );
 	  _.map( planJson["processInstances"], paintProcessInst );
   }
   
