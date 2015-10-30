@@ -67,7 +67,9 @@ angular.module('myApp.view3', ['ngRoute'])
         "stroke-width": "0.5",			
         fill: "rgb(255,255,128)"
       });
-    ci.drag();
+    var cmt = s.text( ciJson["left"]+5, ciJson["top"] + 18, ciJson["comment"] );
+    var g = s.g(ci, cmt);
+    // g.drag();
   }
   
   var paintProcessInst = function(piJson){
@@ -125,7 +127,7 @@ angular.module('myApp.view3', ['ngRoute'])
   }
   
   var fetch = function($scope, $http){
-    $http.get('data/{D57CCB0C-9E31-44BD-9A3C-F729891B56DF}.json').success(
+    $http.get('data/{C464E36D-E9EA-461E-99E8-8D86519E24D5}.json').success(
       function(data) {
         $scope.aPlan = data;
         michelangelo(data);
