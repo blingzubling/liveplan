@@ -55,6 +55,20 @@ angular.module('myApp.view3', ['ngRoute'])
   }
   second(); 
   
+  var paintCommentInst = function(ciJson){
+    var s = Snap("#owPlan");
+    
+    var ci = s.rect(
+      ciJson["left"],
+      ciJson["top"],
+      ciJson["width"],
+      ciJson["height"]).attr({
+        stroke: "rgb(0,0,0)",
+        "stroke-width": "0.5",			
+        fill: "rgb(255,255,128)"
+      });
+    ci.drag();
+  }
   
   var paintProcessInst = function(piJson){
     var s = Snap("#owPlan");
@@ -89,7 +103,7 @@ angular.module('myApp.view3', ['ngRoute'])
         pfad.push( pt.posY );
       }
       
-      s.polyline(pfad).attr( { fill: "none", stroke: "#0101ff", "stroke-width": "3" });      
+      s.polyline(pfad).attr( { fill: "none", stroke: "rgb(0,0,255)", "stroke-width": "3" });      
     }
   }
   
@@ -97,16 +111,17 @@ angular.module('myApp.view3', ['ngRoute'])
       var s = Snap("#owPlan");
       
       var strPlanName = s.text( 15, 15, planJson["name"] ).attr({
-			"font-size": "16pt",
-			"font-style": "normal",
-			"font-weight": "normal",
-			"text-anchor": "start",
-			"fill": "#000000",
-			"font-family": "Segoe UI"			
-			});
+        "font-size": "16pt",
+        "font-style": "normal",
+        "font-weight": "normal",
+        "text-anchor": "start",
+        "fill": "#000000",
+        "font-family": "Segoe UI"			
+        });
       
     _.map( planJson["flowInstances"], paintFlowInst );
 	  _.map( planJson["processInstances"], paintProcessInst );
+    _.map( planJson["commentInstances"], paintCommentInst );
   }
   
   var fetch = function($scope, $http){
