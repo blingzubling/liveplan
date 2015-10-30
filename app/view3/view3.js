@@ -68,7 +68,7 @@ angular.module('myApp.view3', ['ngRoute'])
         "stroke-width": "0.75468",			
         fill: "url(#linearGradient4156)"
       } );
-    pi.drag();
+    // pi.drag();
   }
 
   var paintFlowInst = function(fiJson){
@@ -77,7 +77,20 @@ angular.module('myApp.view3', ['ngRoute'])
     $scope.sorted = fiJson["points"].sort(function(left,right){
                                             var sortOrder = [0,2,1];
                                             return sortOrder[left.pointType] - sortOrder[right.pointType];
-                                          });    
+                                          });
+    
+    if ($scope.sorted.length > 0) {    
+      
+      var pfad = [];       
+      
+      for (var i = 0; i < $scope.sorted.length; i++) { 
+        var pt = $scope.sorted[i];
+        pfad.push( pt.posX );
+        pfad.push( pt.posY );
+      }
+      
+      s.polyline(pfad).attr( { fill: "none", stroke: "#0101ff", "stroke-width": "3" });      
+    }
   }
   
   var michelangelo = function(planJson){
