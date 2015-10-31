@@ -126,13 +126,23 @@ angular.module('myApp.view3', ['ngRoute'])
     _.map( planJson["commentInstances"], paintCommentInst );
   }
   
+  var autsch = function(failData){
+	var s = Snap("#owPlan");
+	var txt = failData.status + " " + failData.statusText;
+	s.text( 30, 52, txt).attr( { "font-size": "48pt", "fill": "rgb(200,200,200)" } );
+  }
+  
   var fetch = function($scope, $http){
-    $http.get('data/{D57CCB0C-9E31-44BD-9A3C-F729891B56DF}.json').success(
-      function(data) {
-        $scope.aPlan = data;
-        michelangelo(data);
-      }
-    );
+	$http.get('data/{D57CCB0C-9E31-44BD-9A3C-F729891B56DF}.json').then(
+		function(successData){			
+					$scope.aPlan = successData.data;
+					michelangelo($scope.aPlan);				  
+		},
+		function(failData){
+			$scope.failData = failData;
+			autsch( failData );
+		}
+	);
   }
   fetch($scope, $http);
 }]);
