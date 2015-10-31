@@ -122,12 +122,12 @@ angular.module('myApp.view3', ['ngRoute'])
         });
       
     _.map( planJson["flowInstances"], paintFlowInst );
-	  _.map( planJson["processInstances"], paintProcessInst );
+	_.map( planJson["processInstances"], paintProcessInst );
     _.map( planJson["commentInstances"], paintCommentInst );
   }
   
   var fetch = function($scope, $http){
-    $http.get('data/{C464E36D-E9EA-461E-99E8-8D86519E24D5}.json').success(
+    $http.get('data/{D57CCB0C-9E31-44BD-9A3C-F729891B56DF}.json').success(
       function(data) {
         $scope.aPlan = data;
         michelangelo(data);
