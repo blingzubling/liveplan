@@ -136,6 +136,18 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
     }
   }
   
+  var fetchAndPaintVisibleQuantity = function(planJson, painterFn){	  
+	  var guid = { guid: planJson["visibleQuantity-ref"] };
+	  var visQnt = gabiObject.get( guid ).$promise.then(
+		function(resonseOK){
+			painterFn( resonseOK["name"] );
+		},
+		function(responseFail){
+			painterFn( "?" );
+		}
+	  );
+  }
+  
   var michelangelo = function(planJson){
       var s = Snap("#owPlan");
       
@@ -151,6 +163,9 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
     _.map( planJson["flowInstances"], paintFlowInst );
 	_.map( planJson["processInstances"], paintProcessInst );
     _.map( planJson["commentInstances"], paintCommentInst );
+	
+	var paintVisibleQuantity = painterFnTemplate( 15, 20 );
+	fetchAndPaintVisibleQuantity(planJson, paintVisibleQuantity);
   }
   
   var autsch = function(failData){
@@ -160,14 +175,17 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
   }
   
   var fetch = function($scope, $http){
-	$http.get('data/{D57CCB0C-9E31-44BD-9A3C-F729891B56DF}.json').then(
-		function(successData){			
-					$scope.aPlan = successData.data;
-					michelangelo($scope.aPlan);				  
+	
+	var guid = { guid: "{D57CCB0C-9E31-44BD-9A3C-F729891B56DF}" };
+	
+	gabiObject.get( guid ).$promise.then(
+		function(responseOK){ 		
+			$scope.aPlan = responseOK;
+			michelangelo($scope.aPlan);
 		},
-		function(failData){
-			$scope.failData = failData;
-			autsch( failData );
+		function(responseFail){ 
+			$scope.failData = responseFail;
+			autsch(responseFail);
 		}
 	);
   }
