@@ -81,10 +81,12 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
   }  
   
   var painterFnTemplate = function(x, y){
-	  return function(name){
-		var s = Snap("#owPlan");
+	  return function(name, guid){
+		var s = Snap("#owPlan");		
+		var lnk = s.el("a").attr( { "xlink:href": "#/plan/" + guid } );
 		var textelem = s.text(x+5, y+15, name);
-		applyStandardFont(textelem);
+		applyStandardFont(textelem);		
+		lnk.append(textelem);		
 	  }  
   }  
   
@@ -93,7 +95,7 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
 	
 	var myProcess = gabiObject.get( guid ).$promise.then(
 		function(responseOK){ 		
-			painterFn( responseOK["name"] );
+			painterFn( responseOK["name"], piJson["process-ref"]);
 		},
 		function(responseFail){ 
 			painterFn("?");
@@ -155,7 +157,7 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
   var michelangelo = function(planJson){
       var s = Snap("#owPlan");
       
-      var strPlanName = s.text( 15, 15, planJson["name"] ).attr({
+      var strPlanName = s.text( 15, 20, planJson["name"] ).attr({
         "font-size": "16pt",
         "font-style": "normal",
         "font-weight": "normal",
