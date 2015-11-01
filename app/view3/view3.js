@@ -3,17 +3,21 @@
 angular.module('myApp.view3', ['ngRoute', 'ngResource'])
 
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/view3', {
-    templateUrl: 'view3/view3.html',
-    controller: 'View3Ctrl'
-  });
+  $routeProvider
+	.when('/view3', {
+		redirectTo: '/plan/{D57CCB0C-9E31-44BD-9A3C-F729891B56DF}'
+	})
+	.when('/plan/:guid', {
+		templateUrl: 'view3/view3.html',
+		controller: 'View3Ctrl'
+	});
 }])
 
 .factory('gabiObject', ['$resource', function($resource){
 	return $resource( "data/:guid.json", { guid: '@uuid'} );
 }])
 
-.controller('View3Ctrl', ['$scope', '$http', 'gabiObject', function($scope, $http, gabiObject) {
+.controller('View3Ctrl', ['$scope', '$http', '$routeParams', 'gabiObject', function($scope, $http, $routeParams, gabiObject) {
 
   var first = function(){
     var s = Snap("#blackboard"); // This will use an existing svg element (not a div)
@@ -174,9 +178,11 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
 	s.text( 30, 52, txt).attr( { "font-size": "48pt", "fill": "rgb(200,200,200)" } );
   }
   
-  var fetch = function($scope, $http){
+  var fetch = function($scope){
 	
-	var guid = { guid: "{D57CCB0C-9E31-44BD-9A3C-F729891B56DF}" };
+	var rp = $routeParams;
+	
+	var guid = { guid: rp.guid };
 	
 	gabiObject.get( guid ).$promise.then(
 		function(responseOK){ 		
@@ -189,5 +195,5 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
 		}
 	);
   }
-  fetch($scope, $http);
+  fetch($scope);
 }]);
