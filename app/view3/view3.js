@@ -1,12 +1,16 @@
 'use strict';
-
-angular.module('myApp.view3', ['ngRoute'])
+	
+angular.module('myApp.view3', ['ngRoute', 'ngResource'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/view3', {
     templateUrl: 'view3/view3.html',
     controller: 'View3Ctrl'
   });
+}])
+
+.factory('gabiObject', ['$resource', function($resource){
+	return $resource( "data/:guid.json", { guid: '@uuid'} );
 }])
 
 .controller('View3Ctrl', ['$scope', '$http', function($scope, $http) {
@@ -48,12 +52,16 @@ angular.module('myApp.view3', ['ngRoute'])
 
   
   var second = function(){
-    var si = Snap("#svgout");    
-    var tux = Snap.load("data/map.svg", function ( loadedFragment ) {
-                                                si.append( loadedFragment );
+    var s = Snap("#svgout");    
+    var mapSvg = Snap.load("data/map.svg", function ( loadedFragment ) {
+                                                s.append( loadedFragment );
                                         } );
   }
   second(); 
+  
+  var applyStandardFont = function( textelem ){
+		textelem.attr( { "font-size": "9pt" } );
+  }
   
   var paintCommentInst = function(ciJson){
     var s = Snap("#owPlan");
@@ -67,10 +75,30 @@ angular.module('myApp.view3', ['ngRoute'])
         "stroke-width": "0.5",			
         fill: "rgb(255,255,128)"
       });
-    var cmt = s.text( ciJson["left"]+5, ciJson["top"] + 18, ciJson["comment"] );
+    var cmt = s.text( ciJson["left"]+5, ciJson["top"] + 15, ciJson["comment"] );
+	applyStandardFont( cmt );
     var g = s.g(ci, cmt);
-    // g.drag();
+    g.drag();
   }
+  
+  
+  var painterFnTemplate = function( x,y ){
+	  return function( name ){
+		var s = Snap("#owPlan");
+		var textelem = s.text( x + 5, y + 15, name );
+		applyStandardFont( textelem );
+	  }  
+  }
+  
+  
+  /*
+  var resolveAndPaintProcessInst = function(piJson, painterFn){
+	var myProcess = gabiObject.get( { guid: piJson["process-ref"] }, function(
+																		painterFn( myProcess["name"] );
+																	 )  
+								  );
+  }
+  */
   
   var paintProcessInst = function(piJson){
     var s = Snap("#owPlan");
@@ -84,7 +112,10 @@ angular.module('myApp.view3', ['ngRoute'])
         "stroke-width": "0.75468",			
         fill: "url(#linearGradient4156)"
       } );
-    // pi.drag();
+    
+	var newFn = painterFnTemplate( piJson["left"], piJson["top"] );
+	newFn( "hello" );
+	// resolveAndPaintProcessInst( pi, newFn );
   }
 
   var paintFlowInst = function(fiJson){
@@ -146,3 +177,12 @@ angular.module('myApp.view3', ['ngRoute'])
   }
   fetch($scope, $http);
 }]);
+
+/*
+  process.$inject = ['$resource', 'config'];
+  function process ($resource, config) {
+    return $resource(config.GABI_SERVER_ENDPOINT + '/api/process', {},
+      { count: { method: 'GET', params: { details: 'countOnly' } } }
+    );
+  }
+*/
