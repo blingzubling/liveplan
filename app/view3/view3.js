@@ -13,11 +13,7 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
 	return $resource( "data/:guid.json", { guid: '@uuid'} );
 }])
 
-.controller('View3Ctrl', ['$scope', '$http', function($scope, $http) {
-  // var s = Snap("#blackboard"); 
-  //lets draw 2 rects at position 100,100 and then reposition them
-  // var r = s.rect(100,100,100,100,20,20).attr({ stroke: '#123456', 'strokeWidth': 20, fill: 'red', 'opacity': 0.2 });
-  // var t = s.text(100,50,'Snap("#svg") should reference an svg element, not a div. Or create it by supplying width,height Snap(100,100)');
+.controller('View3Ctrl', ['$scope', '$http', 'gabiObject', function($scope, $http, gabiObject) {
 
   var first = function(){
     var s = Snap("#blackboard"); // This will use an existing svg element (not a div)
@@ -48,8 +44,7 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
 
     s.text(450,250,"combined translate of 100,100 and rotate around 200,200");
   }
-  first(); 
-
+  first();
   
   var second = function(){
     var s = Snap("#svgout");    
@@ -57,10 +52,10 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
                                                 s.append( loadedFragment );
                                         } );
   }
-  second(); 
+  second();
   
-  var applyStandardFont = function( textelem ){
-		textelem.attr( { "font-size": "9pt" } );
+  var applyStandardFont = function(textelem){
+		textelem.attr( { "font-size": "8pt" } );
   }
   
   var paintCommentInst = function(ciJson){
@@ -79,26 +74,28 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
 	applyStandardFont( cmt );
     var g = s.g(ci, cmt);
     g.drag();
-  }
+  }  
   
-  
-  var painterFnTemplate = function( x,y ){
-	  return function( name ){
+  var painterFnTemplate = function(x, y){
+	  return function(name){
 		var s = Snap("#owPlan");
-		var textelem = s.text( x + 5, y + 15, name );
-		applyStandardFont( textelem );
+		var textelem = s.text(x+5, y+15, name);
+		applyStandardFont(textelem);
 	  }  
-  }
+  }  
   
-  
-  /*
   var resolveAndPaintProcessInst = function(piJson, painterFn){
-	var myProcess = gabiObject.get( { guid: piJson["process-ref"] }, function(
-																		painterFn( myProcess["name"] );
-																	 )  
-								  );
-  }
-  */
+	var guid = { guid: piJson["process-ref"] };
+	
+	var myProcess = gabiObject.get( guid ).$promise.then(
+		function(responseOK){ 		
+			painterFn( responseOK["name"] );
+		},
+		function(responseFail){ 
+			painterFn("?");
+		}
+	);
+  }  
   
   var paintProcessInst = function(piJson){
     var s = Snap("#owPlan");
@@ -113,9 +110,8 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
         fill: "url(#linearGradient4156)"
       } );
     
-	var newFn = painterFnTemplate( piJson["left"], piJson["top"] );
-	newFn( "hello" );
-	// resolveAndPaintProcessInst( pi, newFn );
+	var newFn = painterFnTemplate( piJson["left"], piJson["top"] );	
+	resolveAndPaintProcessInst( piJson, newFn );
   }
 
   var paintFlowInst = function(fiJson){
@@ -177,12 +173,3 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
   }
   fetch($scope, $http);
 }]);
-
-/*
-  process.$inject = ['$resource', 'config'];
-  function process ($resource, config) {
-    return $resource(config.GABI_SERVER_ENDPOINT + '/api/process', {},
-      { count: { method: 'GET', params: { details: 'countOnly' } } }
-    );
-  }
-*/
