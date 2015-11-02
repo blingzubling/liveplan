@@ -9,7 +9,7 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
 	})
 	.when('/plan/:guid', {
 		templateUrl: 'view3/view3.html',
-		controller: 'View3Ctrl'
+		controller: 'View3Ctrl'    
 	});
 }])
 
@@ -155,9 +155,10 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
   }
   
   var michelangelo = function(planJson){
-      var s = Snap("#owPlan");
-      
-      var strPlanName = s.text( 15, 20, planJson["name"] ).attr({
+    var s = Snap("#owPlan");
+    
+    window.document.title = planJson["name"];
+    var strPlanName = s.text( 15, 20, planJson["name"] ).attr({
         "font-size": "16pt",
         "font-style": "normal",
         "font-weight": "normal",
@@ -167,17 +168,17 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
         });
       
     _.map( planJson["flowInstances"], paintFlowInst );
-	_.map( planJson["processInstances"], paintProcessInst );
+    _.map( planJson["processInstances"], paintProcessInst );
     _.map( planJson["commentInstances"], paintCommentInst );
 	
-	var paintVisibleQuantity = painterFnTemplate( 15, 20 );
-	fetchAndPaintVisibleQuantity(planJson, paintVisibleQuantity);
+    var paintVisibleQuantity = painterFnTemplate( 15, 20 );
+    fetchAndPaintVisibleQuantity(planJson, paintVisibleQuantity);
   }
   
   var autsch = function(failData){
 	var s = Snap("#owPlan");
 	var txt = failData.status + " " + failData.statusText;
-	s.text( 30, 52, txt).attr( { "font-size": "48pt", "fill": "rgb(200,200,200)" } );
+	s.text( 30, 52, txt ).attr( { "font-size": "48pt", "fill": "rgb(200,200,200)" } );
   }
   
   var fetch = function($scope){
