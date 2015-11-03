@@ -58,6 +58,13 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
   }
   second();
   
+  var decimalToRGB = function(decimal){
+    var R =  decimal % 256;
+    var G = (decimal >> 8) % 256;
+    var B = (decimal >> 16) % 256;
+    return "rgb(" + R + "," + G + "," + B + ")" ;
+  }
+  
   var applyStandardFont = function(textelem){
 		textelem.attr( { "font-size": "8pt" } );
   }
@@ -132,10 +139,10 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
     }
   }
   
-  var paintArrowAt = function(x,y){
+  var paintArrowAt = function(x,y,color){
     var s = Snap("#owPlan");
     var arrowPath = "M" + x + " " + y + " l" + "-5 -5 l0 10 z";
-    var arrow = s.path(arrowPath).attr({ fill: "rgb(0,0,255)", stroke: "rgb(0,0,255)" });
+    var arrow = s.path(arrowPath).attr({ fill: decimalToRGB(color), stroke: decimalToRGB(color) });
     return arrow;
   }
   
@@ -156,9 +163,9 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
         pfad.push( pt.posX );
         pfad.push( pt.posY );
       }
-      
+           
       // paint flow instance line
-      s.polyline(pfad).attr( { fill: "none", stroke: "rgb(0,0,255)", "stroke-width": "3" });    
+      s.polyline(pfad).attr( { fill: "none", stroke: decimalToRGB( fiJson["color"] ), "stroke-width": "3" });    
       
       var idx       = $scope.sorted.length;
       var lastPt    = $scope.sorted[idx-1];
@@ -166,7 +173,7 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
       var arrowDirection = calcVector(butLastPt, lastPt);
       
       // paint arrow at end of line
-      var arrow = paintArrowAt( lastPt.posX, lastPt.posY );
+      var arrow = paintArrowAt( lastPt.posX, lastPt.posY, fiJson["color"] );
       
       var adon = ","+lastPt.posX+","+lastPt.posY;
       if (arrowDirection.isLeftToRight()){
