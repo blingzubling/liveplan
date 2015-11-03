@@ -75,18 +75,18 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
         fill: "rgb(255,255,128)"
       });
     var cmt = s.text( ciJson["left"]+5, ciJson["top"] + 15, ciJson["comment"] );
-	applyStandardFont( cmt );
+    applyStandardFont( cmt );
     var g = s.g(ci, cmt);
     g.drag();
   }  
   
   var painterFnTemplate = function(x, y){
 	  return function(name, guid){
-		var s = Snap("#owPlan");		
-		var lnk = s.el("a").attr( { "xlink:href": "#/plan/" + guid } );
-		var textelem = s.text(x+5, y+15, name);
-		applyStandardFont(textelem);		
-		lnk.append(textelem);		
+      var s = Snap("#owPlan");		
+      var lnk = s.el("a").attr( { "xlink:href": "#/plan/" + guid } );
+      var textelem = s.text(x+5, y+15, name);
+      applyStandardFont(textelem);		
+      lnk.append(textelem);		
 	  }  
   }  
   
@@ -110,16 +110,34 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
       piJson["left"],
       piJson["top"],
       piJson["width"],
-      piJson["height"]).attr( {
+      piJson["height"]).attr({
         stroke: "#e1e1e1",
         "stroke-width": "0.75468",			
         fill: "url(#linearGradient4156)"
-      } );
+      });
     
 	var newFn = painterFnTemplate( piJson["left"], piJson["top"] );	
 	resolveAndPaintProcessInst( piJson, newFn );
   }
 
+  var calcVector = function(ptStart, ptEnd){
+    return { 
+      dirX: ptEnd.posX - ptStart.posX, 
+      dirY: ptEnd.posY - ptStart.posY,
+      isLeftToRight: function(){ return (this.dirX>0   && this.dirY===0); },
+      isRightToLeft: function(){ return (this.dirX<0   && this.dirY===0); },
+      isTopToBottom: function(){ return (this.dirX===0 && this.dirY>0); },
+      isBottomToTop: function(){ return (this.dirX===0 && this.dirY<0); }
+    }
+  }
+  
+  var paintArrowAt = function(x,y){
+    var s = Snap("#owPlan");
+    var arrowPath = "M" + x + " " + y + " l" + "-5 -5 l0 10 z";
+    var arrow = s.path(arrowPath).attr({ fill: "rgb(0,0,255)", stroke: "rgb(0,0,255)" });
+    return arrow;
+  }
+  
   var paintFlowInst = function(fiJson){
     var s = Snap("#owPlan");
     
@@ -138,7 +156,26 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
         pfad.push( pt.posY );
       }
       
-      s.polyline(pfad).attr( { fill: "none", stroke: "rgb(0,0,255)", "stroke-width": "3" });      
+      // paint flow instance line
+      s.polyline(pfad).attr( { fill: "none", stroke: "rgb(0,0,255)", "stroke-width": "3" });    
+      
+      var idx       = $scope.sorted.length;
+      var lastPt    = $scope.sorted[idx-1];
+      var butLastPt = $scope.sorted[idx-2];
+      var arrowDirection = calcVector(butLastPt, lastPt);
+      
+      // paint arrow at end of line
+      var arrow = paintArrowAt( lastPt.posX, lastPt.posY );
+      
+      var adon = ","+lastPt.posX+","+lastPt.posY;
+      if (arrowDirection.isLeftToRight()){
+      } else if (arrowDirection.isRightToLeft()) {
+        arrow.transform("r180"+adon);
+      } else if (arrowDirection.isTopToBottom()) {
+        arrow.transform("r90"+adon);
+      } else if (arrowDirection.isBottomToTop()) {
+        arrow.transform("r270"+adon);
+      };
     }
   }
   
