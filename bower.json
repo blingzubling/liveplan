@@ -12,6 +12,7 @@
     "angular-mocks": "~1.4.0",
     "html5-boilerplate": "~5.2.0",
     "underscore": "~1.8.3",
-    "angular-resource": "~1.4.7"
+    "angular-resource": "~1.4.7",
+    "Snap.svg": "~0.4.1"
   }
 }
