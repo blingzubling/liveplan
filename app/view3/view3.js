@@ -102,7 +102,8 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
 	
 	var myProcess = gabiObject.get( guid ).$promise.then(
 		function(responseOK){ 		
-			painterFn( responseOK["nation"] + ": " + responseOK["name"], piJson["process-ref"]);
+			var nation = ( responseOK["nation"] === "" || _.isUndefined(responseOK["nation"]) ) ? "" : responseOK["nation"] + ": ";
+			painterFn( nation + responseOK["name"], piJson["process-ref"]);
 		},
 		function(responseFail){ 
 			painterFn("?");
