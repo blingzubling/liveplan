@@ -105,14 +105,15 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
   
   var paintProcessInst = function(piJson){
     var s = Snap("#owPlan");
-	
+    var strokeWidth = 0.75468
     var pi = s.rect(		
-      piJson["left"],
-      piJson["top"],
-      piJson["width"],
-      piJson["height"]).attr({
+          piJson["left"]   + strokeWidth,
+          piJson["top"]    + strokeWidth,
+          piJson["width"]  - strokeWidth,
+          piJson["height"] - strokeWidth
+      ).attr({
         stroke: "#e1e1e1",
-        "stroke-width": "0.75468",			
+        "stroke-width": strokeWidth,
         fill: "url(#linearGradient4156)"
       });
     
