@@ -79,7 +79,7 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
       ciJson["height"]).attr({
         stroke: "rgb(0,0,0)",
         "stroke-width": "0.5",			
-        fill: "rgb(255,255,128)"
+        fill: decimalToRGB(ciJson["color"])
       });
     var cmt = s.text( ciJson["left"]+5, ciJson["top"] + 15, ciJson["comment"] );
     applyStandardFont( cmt );
