@@ -17,7 +17,18 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource'])
 	return $resource( "data/:guid.json", { guid: '@uuid'} );
 }])
 
-.controller('View4Ctrl', ['$scope', '$http', '$routeParams', 'gabiObject', function($scope, $http, $routeParams, gabiObject) {
+.controller('View4Ctrl', ['$scope', '$http', '$routeParams', 'gabiObject', function($scope, $http, $routeParams, gabiObject) { 
+  
+  var addFlowName = function(io){    
+    var guid = { guid: io["flow-ref"] };
+    gabiObject.get( guid ).$promise.then(
+      function(successData){
+        io["resolvedFlowName"] = successData["name"];
+      },
+      function(successData){
+        io["resolvedFlowName"] = "?";
+      });     
+  }
   
   var decimalToRGB = function(decimal){
     var R =  decimal % 256;
@@ -52,7 +63,8 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource'])
         "fill": "#000000",
         "font-family": "Segoe UI"			
         });
-      
+    _.map(processJson.inputFlows, addFlowName);
+    _.map(processJson.outputFlows, addFlowName);
   }
   
   var autsch = function(failData){
