@@ -32,7 +32,7 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource'])
   
   var painterFnTemplate = function(x, y){
 	  return function(name, guid){
-      var s = Snap("#owPlan");		
+      var s = Snap("#owProcess");		
       var lnk = s.el("a").attr( { "xlink:href": "#/plan/" + guid } );
       var textelem = s.text(x+5, y+15, name);
       applyStandardFont(textelem);		
@@ -41,10 +41,10 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource'])
   }  
  
   var michelangelo = function(processJson){
-    var s = Snap("#owPlan");
+    var s = Snap("#owProcess");
     
     window.document.title = processJson["name"];
-    var strPlanName = s.text( 15, 20, processJson["name"] ).attr({
+    var strProcessName = s.text( 15, 20, processJson["@objectType"] + " - " + processJson["name"] ).attr({
         "font-size": "16pt",
         "font-style": "normal",
         "font-weight": "normal",
@@ -56,7 +56,7 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource'])
   }
   
   var autsch = function(failData){
-	var s = Snap("#owPlan");
+	var s = Snap("#owProcess");
 	var txt = failData.status + " " + failData.statusText;
 	s.text( 30, 52, txt ).attr( { "font-size": "48pt", "fill": "rgb(200,200,200)" } );
   }

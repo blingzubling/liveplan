@@ -3,18 +3,18 @@
   Y Showing of 'interpolate' filter:
   {{ 'Current version is v%VERSION%.' | interpolate }}
 </p>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="owPlan" width="1600" height="960">
-	<defs>
-		<linearGradient id="linearGradient3755">
-			<stop stop-color="#cccccc" id="stop3757" offset="0"/>
-			<stop stop-color="#cccccc" stop-opacity="0" id="stop3759" offset="1"/>
-		</linearGradient>
-		<linearGradient y2="0.07054" x2="0.46541" y1="0.95238" x1="0.46541" id="linearGradient4156" xlink:href="#linearGradient3755"/>
-	</defs>
+
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="owProcess" width="800" height="40">
 </svg>
-<pre>oooooooooooooooooooooooooooooooo</pre>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="blackboard" width="100%" height="420">
-</svg>
-<pre>-------------------------------</pre>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="svgout" width="1024" height="400">
-</svg>
+
+<div>
+  <table>
+    <th>Amount</th>
+    <th>Flow</th>
+    <tr ng-repeat="item in aProcess.outputFlows">      
+      <td>{{item.amount}}</td>
+      <td>{{item["flow-ref"]}}</td>
+    </tr>
+  </table>
+</div>
+
