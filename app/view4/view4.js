@@ -54,7 +54,7 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource'])
   var michelangelo = function(processJson){
     var s = Snap("#owProcess");
     
-    window.document.title = processJson["name"];
+    window.document.title = "[Process] " + processJson["name"];
     var strProcessName = s.text( 15, 20, processJson["@objectType"] + " - " + processJson["name"] ).attr({
         "font-size": "16pt",
         "font-style": "normal",

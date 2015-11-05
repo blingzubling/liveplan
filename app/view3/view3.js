@@ -87,10 +87,10 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
     g.drag();
   }  
   
-  var painterFnTemplate = function(x, y){
+  var painterFnTemplate = function(x, y, objectType){
 	  return function(name, guid){
       var s = Snap("#owPlan");		
-      var lnk = s.el("a").attr( { "xlink:href": "#/plan/" + guid } );
+      var lnk = s.el("a").attr( { "xlink:href": "#/" + objectType + "/" + guid } );
       var textelem = s.text(x+5, y+15, name);
       applyStandardFont(textelem);		
       lnk.append(textelem);		
@@ -124,8 +124,9 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
         "stroke-width": strokeWidth,
         fill: "url(#linearGradient4156)"
       });
-    
-	var newFn = painterFnTemplate( piJson["left"], piJson["top"] );	
+  
+	var objectType = (piJson["plan"] === true) ? "plan" : "process";
+	var newFn = painterFnTemplate( piJson["left"], piJson["top"], objectType );	
 	resolveAndPaintProcessInst( piJson, newFn );
   }
 
@@ -203,7 +204,7 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
   var michelangelo = function(planJson){
     var s = Snap("#owPlan");
     
-    window.document.title = planJson["name"];
+    window.document.title = "[Plan] " + planJson["name"];
     var strPlanName = s.text( 15, 20, planJson["name"] ).attr({
         "font-size": "16pt",
         "font-style": "normal",
@@ -217,7 +218,7 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
     _.map( planJson["processInstances"], paintProcessInst );
     _.map( planJson["commentInstances"], paintCommentInst );
 	
-    var paintVisibleQuantity = painterFnTemplate( 15, 20 );
+    var paintVisibleQuantity = painterFnTemplate( 15, 20, "quantity" );
     fetchAndPaintVisibleQuantity(planJson, paintVisibleQuantity);
   }
   

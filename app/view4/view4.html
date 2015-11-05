@@ -10,25 +10,21 @@
 <div>
   <h4>Inputs</h4>
   <table>
-    <th>Amount</th>
-    <th>Flow Guid</th>
+    <th>Amount</th>    
     <th>Flow Name</th>
-    <tr ng-repeat="item in aProcess.inputFlows | orderBy: 'resolvedFlowName'">      
-      <td>{{item.amount}}</td>
-      <td>{{item["flow-ref"]}}</td>
+    <tr ng-repeat="item in aProcess.inputFlows | orderBy: 'resolvedFlowName'">
+      <td>{{item.amount}}</td>      
       <td>{{item["resolvedFlowName"]}}</td>
     </tr>
   </table>
   
   <h4>Outputs</h4>
   <table>
-    <th>Amount</th>
-    <th>Flow Guid</th>
+    <th>Amount</th>    
     <th>Flow Name</th>
-    <tr ng-repeat="item in aProcess.outputFlows">      
-      <td>{{item.amount}}</td>
-      <td>{{item["flow-ref"]}}</td>
-      <td>{{item["resolved-flowName"]}}</td>
+    <tr ng-repeat="item in aProcess.outputFlows | orderBy: 'resolvedFlowName'"">
+      <td>{{item.amount}}</td>      
+      <td>{{item["resolvedFlowName"]}}</td>
     </tr>
   </table>
 </div>
