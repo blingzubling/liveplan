@@ -195,7 +195,7 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
 			painterFn( resonseOK["name"] );
 		},
 		function(responseFail){
-			painterFn( "?" );
+			painterFn( "? (" + guid.guid + " not found)" );
 		}
 	  );
   }
