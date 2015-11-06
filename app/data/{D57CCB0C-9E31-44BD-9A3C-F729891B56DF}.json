@@ -49,9 +49,9 @@
 		"instanceId": 2,
 		"fontColor": 0,
 		"framed": true,
-		"width": 215,
+		"width": 120,
 		"height": 80,
-		"comment": "Beschreibung",
+		"comment": "Beschreibung mit langem text",
 		"left": 45,
 		"color": 8454143
 	}],

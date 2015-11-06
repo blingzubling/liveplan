@@ -65,8 +65,18 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
     return "rgb(" + R + "," + G + "," + B + ")" ;
   }
   
-  var applyStandardFont = function(textelem){
-		textelem.attr( { "font-size": "8pt" } );
+  var applyStandardFont = function(textelem, x){
+		textelem.attr( { "font-size": "8pt" } )
+		.selectAll("tspan").forEach(function(tspan, i){
+		 if (i>0){
+			tspan.attr({x:x, dy:12});
+		 };
+   });
+  }
+  
+  var splitAndAdd = function(string){
+	var res = string.split(" ");
+	return _.map(res, function(str){ var erg = str + " "; return erg; });
   }
   
   var paintCommentInst = function(ciJson){
@@ -81,10 +91,10 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
         "stroke-width": "0.5",			
         fill: decimalToRGB(ciJson["color"])
       });
-    var cmt = s.text( ciJson["left"]+5, ciJson["top"] + 15, ciJson["comment"] );
-    applyStandardFont( cmt );
+    var cmt = s.text( ciJson["left"]+5, ciJson["top"] + 15, splitAndAdd( ciJson["comment"] ) );
+    applyStandardFont( cmt, ciJson["left"]+5 );	
     var g = s.g(ci, cmt);
-    g.drag();
+    // g.drag();
   }  
   
   var painterFnTemplate = function(x, y, objectType){
