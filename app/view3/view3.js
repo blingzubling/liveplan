@@ -88,8 +88,7 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
 		p.remove();
 		return bbox;
 	}
-	
-	
+		
 	var cutAtLinebreaks = str.split(/\n/g);	
 	var resultLines = [];
 	var resultHeight = 0;	
@@ -103,7 +102,7 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
 			myLine = fromTo(idx,upTo,pitch);
 			var bbox = getExtends(myLine,myAttrs);
 			resultHeight = Math.max(resultHeight, bbox.height);
-			if( bbox.width < maxLineWidth){
+			if( bbox.width < maxLineWidth ){
 				upTo++;
 			} else if (idx===upTo) {		
 				myLine = fromTo(idx,upTo,pitch);
@@ -115,8 +114,8 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
 				idx = upTo;			
 				resultLines.push(myLine);			
 			}
-		}
-		resultLines.push(myLine);
+		}		
+		resultLines.push(myLine + "-XXX");
 	}
 	
 	var result = { lines: resultLines, lineHeight: resultHeight };
