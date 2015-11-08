@@ -72,8 +72,6 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
 	
 	var s = Snap("#owPlan");
 	
-	var pitch = str.split(" ");	
-	
 	var fromTo = function(start,end,pitch){		
 		var res = "";
 		if (end<pitch.length){
@@ -91,29 +89,35 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
 		return bbox;
 	}
 	
-	var idx = 0, upTo = 0;
-	var myLine = "";
-	var resultLines = [];
-	var resultHeight = 0;
 	
-	while( upTo < pitch.length ){		
-		myLine = fromTo(idx,upTo,pitch);
-		var bbox = getExtends(myLine,myAttrs);
-		resultHeight = bbox.height;
-		if( bbox.width < maxLineWidth){
-			upTo++;
-		} else if (idx===upTo) {		
+	var cutAtLinebreaks = str.split(/\n/g);	
+	var resultLines = [];
+	var resultHeight = 0;	
+	for(var lnr=0;lnr<cutAtLinebreaks.length;lnr++){
+	
+		var pitch = cutAtLinebreaks[lnr].split(" ");
+		var idx = 0, upTo = 0;
+		var myLine = "";		
+
+		while( upTo < pitch.length ){		
 			myLine = fromTo(idx,upTo,pitch);
-			idx++;
-			upTo++;
-			resultLines.push(myLine);
-		} else {			
-			myLine = fromTo(idx,upTo-1,pitch);
-			idx = upTo;			
-			resultLines.push(myLine);			
+			var bbox = getExtends(myLine,myAttrs);
+			resultHeight = Math.max(resultHeight, bbox.height);
+			if( bbox.width < maxLineWidth){
+				upTo++;
+			} else if (idx===upTo) {		
+				myLine = fromTo(idx,upTo,pitch);
+				idx++;
+				upTo++;
+				resultLines.push(myLine);
+			} else {			
+				myLine = fromTo(idx,upTo-1,pitch);
+				idx = upTo;			
+				resultLines.push(myLine);			
+			}
 		}
+		resultLines.push(myLine);
 	}
-	resultLines.push(myLine);
 	
 	var result = { lines: resultLines, lineHeight: resultHeight };
 	return result;
@@ -142,9 +146,9 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
         "stroke-width": "0.5",			
         fill: decimalToRGB(ciJson["color"])
       });
-	var wrapText = wrap( ciJson["comment"], STANDARD_TEXT_ATTRS, ciJson["width"] - 10 );
-    var cmt = s.text( ciJson["left"]+5, ciJson["top"] + 15, wrapText.lines );
-    applyStandardFont( cmt, ciJson["left"]+5, wrapText.lineHeight );	
+	var wrapText = wrap( ciJson["comment"], STANDARD_TEXT_ATTRS, ciJson["width"] - 6 );
+    var cmt = s.text( ciJson["left"]+3, ciJson["top"] + 15, wrapText.lines );
+    applyStandardFont( cmt, ciJson["left"]+3, wrapText.lineHeight );	
     // var g = s.g(ci, cmt);
     // g.drag();	
 	
