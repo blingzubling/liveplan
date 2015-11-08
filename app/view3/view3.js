@@ -65,18 +65,69 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
     return "rgb(" + R + "," + G + "," + B + ")" ;
   }
   
-  var applyStandardFont = function(textelem, x){
-		textelem.attr( { "font-size": "8pt" } )
-		.selectAll("tspan").forEach(function(tspan, i){
-		 if (i>0){
-			tspan.attr({x:x, dy:12});
-		 };
-   });
+  var wrap = function(str, attrs, maxLineWidth){
+
+	var myAttrs = _.omit(attrs, "opacity");
+	myAttrs.opacity = 0.0;	
+	
+	var s = Snap("#owPlan");
+	
+	var pitch = str.split(" ");	
+	
+	var fromTo = function(start,end,pitch){		
+		var res = "";
+		if (end<pitch.length){
+			for (var i=start;i<=end;i++){
+				res = (res==="") ? pitch[i] : res + " " + pitch[i];
+			}
+		}		
+		return res;
+	}
+	
+	var getExtends = function(aLine, aAttrs){
+		var p = s.text( 0, 0, aLine ).attr( aAttrs );
+		var bbox = _.omit( p.getBBox() );
+		p.remove();
+		return bbox;
+	}
+	
+	var idx = 0, upTo = 0;
+	var myLine = "";
+	var resultLines = [];
+	var resultHeight = 0;
+	
+	while( upTo < pitch.length ){		
+		myLine = fromTo(idx,upTo,pitch);
+		var bbox = getExtends(myLine,myAttrs);
+		resultHeight = bbox.height;
+		if( bbox.width < maxLineWidth){
+			upTo++;
+		} else if (idx===upTo) {		
+			myLine = fromTo(idx,upTo,pitch);
+			idx++;
+			upTo++;
+			resultLines.push(myLine);
+		} else {			
+			myLine = fromTo(idx,upTo-1,pitch);
+			idx = upTo;			
+			resultLines.push(myLine);			
+		}
+	}
+	resultLines.push(myLine);
+	
+	var result = { lines: resultLines, lineHeight: resultHeight };
+	return result;
   }
   
-  var splitAndAdd = function(string){
-	var res = string.split(" ");
-	return _.map(res, function(str){ var erg = str + " "; return erg; });
+  var STANDARD_TEXT_ATTRS = { "font-size": "8pt" }; 
+  
+  var applyStandardFont = function(textelem, x, lineHeight){
+		textelem.attr( STANDARD_TEXT_ATTRS )
+		.selectAll("tspan").forEach(function(tspan, i){
+		 if (i>0){
+			tspan.attr({x:x, dy:lineHeight});
+		 };
+   });
   }
   
   var paintCommentInst = function(ciJson){
@@ -91,10 +142,12 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
         "stroke-width": "0.5",			
         fill: decimalToRGB(ciJson["color"])
       });
-    var cmt = s.text( ciJson["left"]+5, ciJson["top"] + 15, splitAndAdd( ciJson["comment"] ) );
-    applyStandardFont( cmt, ciJson["left"]+5 );	
-    var g = s.g(ci, cmt);
-    // g.drag();
+	var wrapText = wrap( ciJson["comment"], STANDARD_TEXT_ATTRS, ciJson["width"] - 10 );
+    var cmt = s.text( ciJson["left"]+5, ciJson["top"] + 15, wrapText.lines );
+    applyStandardFont( cmt, ciJson["left"]+5, wrapText.lineHeight );	
+    // var g = s.g(ci, cmt);
+    // g.drag();	
+	
   }  
   
   var painterFnTemplate = function(x, y, objectType){
