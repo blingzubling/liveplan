@@ -149,9 +149,6 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
 	var wrapText = wrap( ciJson["comment"], STANDARD_TEXT_ATTRS, ciJson["width"] - 6 );
     var cmt = s.text( ciJson["left"]+3, ciJson["top"] + 15, wrapText.lines );
     applyStandardFont( cmt, ciJson["left"]+3, wrapText.lineHeight );	
-    // var g = s.g(ci, cmt);
-    // g.drag();	
-	
   }  
   
   var painterFnTemplate = function(x, y, objectType, maxLineWidth){
