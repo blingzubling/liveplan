@@ -119,7 +119,7 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
 	return result;
   }
   
-  var STANDARD_TEXT_ATTRS = { "font-size": "8pt" }; 
+  var STANDARD_TEXT_ATTRS = { "font-size": "8pt", "font-weight": "normal" }; 
   
   var applyStandardFont = function(textelem, x, lineHeight){
 		textelem.attr( STANDARD_TEXT_ATTRS )
@@ -150,13 +150,14 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
 	
   }  
   
-  var painterFnTemplate = function(x, y, objectType){
+  var painterFnTemplate = function(x, y, objectType, maxLineWidth){
 	  return function(name, guid){
-      var s = Snap("#owPlan");		
-      var lnk = s.el("a").attr( { "xlink:href": "#/" + objectType + "/" + guid } );
-      var textelem = s.text(x+5, y+15, name);
-      applyStandardFont(textelem);		
-      lnk.append(textelem);		
+		var s = Snap("#owPlan");		
+		var lnk = s.el("a").attr( { "xlink:href": "#/" + objectType + "/" + guid } );
+		var wrapText = wrap( name, STANDARD_TEXT_ATTRS, maxLineWidth );
+		var textelem = s.text(x+5, y+15, wrapText.lines );
+		applyStandardFont(textelem, x+5, wrapText.lineHeight );		
+		lnk.append( textelem );		
 	  }  
   }  
   
@@ -189,7 +190,7 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
       });
   
 	var objectType = (piJson["plan"] === true) ? "plan" : "process";
-	var newFn = painterFnTemplate( piJson["left"], piJson["top"], objectType );	
+	var newFn = painterFnTemplate( piJson["left"], piJson["top"], objectType, piJson["width"] - 50 );	
 	resolveAndPaintProcessInst( piJson, newFn );
   }
 
@@ -281,7 +282,7 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
     _.map( planJson["processInstances"], paintProcessInst );
     _.map( planJson["commentInstances"], paintCommentInst );
 	
-    var paintVisibleQuantity = painterFnTemplate( 15, 20, "quantity" );
+    var paintVisibleQuantity = painterFnTemplate( 15, 20, "quantity", 9999999 );
     fetchAndPaintVisibleQuantity(planJson, paintVisibleQuantity);
   }
   
