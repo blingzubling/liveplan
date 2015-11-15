@@ -115,7 +115,8 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
 				resultLines.push(myLine);			
 			}
 		}		
-		resultLines.push(myLine + "-XXX");
+		// resultLines.push(myLine + "-XXX");
+    resultLines.push(myLine + "");
 	}
 	
 	var result = { lines: resultLines, lineHeight: resultHeight };
@@ -213,16 +214,38 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
     return arrow;
   }
   
-  var paintStrech = function(pointFrom, pointTo, color) {
+  var paintStretch = function(pointFrom, pointTo, color) {
 	  var s = Snap("#owPlan");
     var pfad = [];
     pfad.push( pointFrom.posX );
     pfad.push( pointFrom.posY );
     pfad.push( pointTo.posX );
     pfad.push( pointTo.posY );
+    
     // paint flow instance stretch
     var stretch = s.polyline(pfad).attr( { fill: "none", stroke: decimalToRGB( color ), "stroke-width": "3" });
-    return stretch;
+    var result;
+    
+    // paint arrow at sink of stretch
+    if(pointTo.pointType === 1){
+      var arrowDirection = calcVector(pointFrom, pointTo);      
+      
+      var arrow = paintArrowAt( pointTo.posX, pointTo.posY, color );
+      
+      var adon = ","+pointTo.posX+","+pointTo.posY;
+      if (arrowDirection.isLeftToRight()){
+      } else if (arrowDirection.isRightToLeft()) {
+        arrow.transform("r180"+adon);
+      } else if (arrowDirection.isTopToBottom()) {
+        arrow.transform("r90"+adon);
+      } else if (arrowDirection.isBottomToTop()) {
+        arrow.transform("r270"+adon);
+      };
+      result = s.g(stretch, arrow);      
+    } else {
+      result = stretch;
+    };
+    return result;
   }
   
   var paintStretchFromPointsFn = function(s, points, color) {
@@ -233,58 +256,17 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
       var pointsTo = _.filter(points, function(point) { 
         return ( point.pointId === stretchesItem.endPointId ); 
         });
-      return paintStrech(pointsFrom[0], pointsTo[0], color);
+      return paintStretch(pointsFrom[0], pointsTo[0], color);
     };
   }
   
-  var paintMultiFlowInst = function(fiJson) {
+  var paintFlowInst = function(fiJson) {
     var s = Snap("#owPlan");
     
     var stretchesPainter = paintStretchFromPointsFn(s, fiJson["points"], fiJson["color"]);
     var paintedStretches = _.map( fiJson["streches"], stretchesPainter);	
   }
-  
-  var paintFlowInst = function(fiJson){
-    var s = Snap("#owPlan");
     
-    $scope.sorted = fiJson["points"].sort(function(left,right){
-                                            var sortOrder = [0,2,1];
-                                            return sortOrder[left.pointType] - sortOrder[right.pointType];
-                                          });
-    
-    if ($scope.sorted.length > 0) {    
-      
-      var pfad = [];       
-      
-      for (var i = 0; i < $scope.sorted.length; i++) { 
-        var pt = $scope.sorted[i];
-        pfad.push( pt.posX );
-        pfad.push( pt.posY );
-      }
-           
-      // paint flow instance line
-      s.polyline(pfad).attr( { fill: "none", stroke: decimalToRGB( fiJson["color"] ), "stroke-width": "3" });    
-      
-      var idx       = $scope.sorted.length;
-      var lastPt    = $scope.sorted[idx-1];
-      var butLastPt = $scope.sorted[idx-2];
-      var arrowDirection = calcVector(butLastPt, lastPt);
-      
-      // paint arrow at end of line
-      var arrow = paintArrowAt( lastPt.posX, lastPt.posY, fiJson["color"] );
-      
-      var adon = ","+lastPt.posX+","+lastPt.posY;
-      if (arrowDirection.isLeftToRight()){
-      } else if (arrowDirection.isRightToLeft()) {
-        arrow.transform("r180"+adon);
-      } else if (arrowDirection.isTopToBottom()) {
-        arrow.transform("r90"+adon);
-      } else if (arrowDirection.isBottomToTop()) {
-        arrow.transform("r270"+adon);
-      };
-    }
-  }
-  
   var fetchAndPaintVisibleQuantity = function(planJson, painterFn){	  
 	  var guid = { guid: planJson["visibleQuantity-ref"] };
 	  var visQnt = gabiObject.get( guid ).$promise.then(
@@ -310,8 +292,7 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
         "font-family": "Segoe UI"			
         });
       
-    // _.map( planJson["flowInstances"], paintFlowInst );
-    _.map( planJson["flowInstances"], paintMultiFlowInst );
+    _.map( planJson["flowInstances"], paintFlowInst );
     _.map( planJson["processInstances"], paintProcessInst );
     _.map( planJson["commentInstances"], paintCommentInst );
 	
