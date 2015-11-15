@@ -1,5 +1,5 @@
 'use strict';
-	
+
 angular.module('myApp.view3', ['ngRoute', 'ngResource'])
 
 .config(['$routeProvider', function($routeProvider) {
@@ -19,7 +19,7 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
 
 .controller('View3Ctrl', ['$scope', '$http', '$routeParams', 'gabiObject', function($scope, $http, $routeParams, gabiObject) {
 
-  var first = function(){
+  var first = function() {
     var s = Snap("#blackboard"); // This will use an existing svg element (not a div)
 
     var c = s.circle( 200,200,10 );
@@ -206,10 +206,42 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
   }
   
   var paintArrowAt = function(x,y,color){
+    // paints horizontal arrow pointing from left to right
     var s = Snap("#owPlan");
     var arrowPath = "M" + x + " " + y + " l" + "-5 -5 l0 10 z";
     var arrow = s.path(arrowPath).attr({ fill: decimalToRGB(color), stroke: decimalToRGB(color) });
     return arrow;
+  }
+  
+  var paintStrech = function(pointFrom, pointTo, color) {
+	  var s = Snap("#owPlan");
+    var pfad = [];
+    pfad.push( pointFrom.posX );
+    pfad.push( pointFrom.posY );
+    pfad.push( pointTo.posX );
+    pfad.push( pointTo.posY );
+    // paint flow instance stretch
+    var stretch = s.polyline(pfad).attr( { fill: "none", stroke: decimalToRGB( color ), "stroke-width": "3" });
+    return stretch;
+  }
+  
+  var paintStretchFromPointsFn = function(s, points, color) {
+    return function(stretchesItem) {
+      var pointsFrom = _.filter(points, function(point) { 
+        return ( point.pointId === stretchesItem.startPointId ); 
+        });
+      var pointsTo = _.filter(points, function(point) { 
+        return ( point.pointId === stretchesItem.endPointId ); 
+        });
+      return paintStrech(pointsFrom[0], pointsTo[0], color);
+    };
+  }
+  
+  var paintMultiFlowInst = function(fiJson) {
+    var s = Snap("#owPlan");
+    
+    var stretchesPainter = paintStretchFromPointsFn(s, fiJson["points"], fiJson["color"]);
+    var paintedStretches = _.map( fiJson["streches"], stretchesPainter);	
   }
   
   var paintFlowInst = function(fiJson){
@@ -278,7 +310,8 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
         "font-family": "Segoe UI"			
         });
       
-    _.map( planJson["flowInstances"], paintFlowInst );
+    // _.map( planJson["flowInstances"], paintFlowInst );
+    _.map( planJson["flowInstances"], paintMultiFlowInst );
     _.map( planJson["processInstances"], paintProcessInst );
     _.map( planJson["commentInstances"], paintCommentInst );
 	
