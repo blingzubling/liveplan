@@ -17,7 +17,7 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
 	return $resource( "data/:guid.json", { guid: '@uuid'} );
 }])
 
-.controller('View3Ctrl', ['$scope', '$http', '$routeParams', 'gabiObject', function($scope, $http, $routeParams, gabiObject) {
+.controller('View3Ctrl', ['$scope', '$http', '$routeParams', '$q', 'gabiObject', function($scope, $http, $routeParams, $q, gabiObject) {
 
   var first = function() {
     var s = Snap("#blackboard"); // This will use an existing svg element (not a div)
@@ -144,7 +144,8 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
       ciJson["height"]).attr({
         stroke: "rgb(0,0,0)",
         "stroke-width": "0.5",			
-        fill: decimalToRGB(ciJson["color"])
+        "fill": decimalToRGB(ciJson["color"]),
+        "fill-opacity": 1.0
       });
 	var wrapText = wrap( ciJson["comment"], STANDARD_TEXT_ATTRS, ciJson["width"] - 6 );
     var cmt = s.text( ciJson["left"]+3, ciJson["top"] + 15, wrapText.lines );
@@ -163,17 +164,17 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
   }  
   
   var resolveAndPaintProcessInst = function(piJson, painterFn){
-	var guid = { guid: piJson["process-ref"] };
+    var guid = { guid: piJson["process-ref"] };
 	
-	var myProcess = gabiObject.get( guid ).$promise.then(
-		function(responseOK){ 		
-			var nation = ( responseOK["nation"] === "" || _.isUndefined(responseOK["nation"]) ) ? "" : responseOK["nation"] + ": ";
-			painterFn( nation + responseOK["name"], piJson["process-ref"]);
-		},
-		function(responseFail){ 
-			painterFn("?");
-		}
-	);
+    var myProcess = gabiObject.get( guid ).$promise.then(
+      function(responseOK){ 		
+        var nation = ( responseOK["nation"] === "" || _.isUndefined(responseOK["nation"]) ) ? "" : responseOK["nation"] + ": ";
+        painterFn( nation + responseOK["name"], piJson["process-ref"]);
+      },
+      function(responseFail){ 
+        painterFn("?");
+      }
+    );
   }  
   
   var paintProcessInst = function(piJson){
@@ -279,6 +280,24 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
 	  );
   }
   
+  var promisePaintFlowInstFn = function(planJson) {
+    return function() {
+      return $q.all( _.map( planJson["flowInstances"], paintFlowInst ) );
+    };
+  }
+  
+  var promisePaintProcessInstFn = function(planJson) {
+    return function() {
+      return $q.all( _.map( planJson["processInstances"], paintProcessInst ) );
+    }
+  }
+  
+  var promisePaintCommentInstFn = function(planJson) {
+    return function() {
+      return $q.all( _.map( planJson["commentInstances"], paintCommentInst ) );
+    }
+  }
+  
   var michelangelo = function(planJson){
     var s = Snap("#owPlan");
     
@@ -291,11 +310,21 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
         "fill": "#000000",
         "font-family": "Segoe UI"			
         });
-      
+    /*
     _.map( planJson["flowInstances"], paintFlowInst );
     _.map( planJson["processInstances"], paintProcessInst );
     _.map( planJson["commentInstances"], paintCommentInst );
-	
+    */
+    
+    var promisePaintFlowInst = promisePaintFlowInstFn(planJson);
+    var promisePaintProcessInst = promisePaintProcessInstFn(planJson);
+    var promisePaintCommentInst = promisePaintCommentInstFn(planJson);
+    
+    promisePaintFlowInst()    
+    .then(promisePaintProcessInst)
+    .then(promisePaintCommentInst)
+    ;
+    
     var paintVisibleQuantity = painterFnTemplate( 15, 20, "quantity", 9999999 );
     fetchAndPaintVisibleQuantity(planJson, paintVisibleQuantity);
   }
