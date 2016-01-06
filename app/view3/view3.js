@@ -32,7 +32,7 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
         var r = s.rect(200, 100, 100, 100, 20, 20).attr({
             stroke: '#123456',
             'strokeWidth': 20,
-            fill: 'red',
+            fill: 'red', 
             'opacity': 0.3
         });
 
