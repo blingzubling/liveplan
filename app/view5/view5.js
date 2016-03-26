@@ -9,9 +9,9 @@ angular.module('myApp.view5', ['ngRoute', 'ngResource'])
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider
         .when('/view5', {
-            redirectTo: '/plan/{D57CCB0C-9E31-44BD-9A3C-F729891B56DF}'
+            redirectTo: '/flow/{D57CCB0C-9E31-44BD-9A3C-F729891B56DF}'
         })
-        .when('/plan/:guid', {
+        .when('/flow/:guid', {
             templateUrl: 'view5/view5.html',
             controller: 'View5Ctrl'
         });
