@@ -8,8 +8,8 @@ describe('myApp.view3 module', function() {
 
     it('should ....', inject(function($controller) {
       //spec body
-      var view3Ctrl = $controller('View3Ctrl');
-      expect(view3Ctrl).toBeDefined();
+      var view4Ctrl = $controller('View4Ctrl');
+      expect(view4Ctrl).toBeDefined();
     }));
 
   });
