@@ -1,5 +1,5 @@
 {
-  "name": "angular-seed",
+  "name": "liveplan",
   "private": true,
   "version": "0.0.0",
   "description": "A starter project for AngularJS",
@@ -7,6 +7,8 @@
   "license": "MIT",
   "devDependencies": {
     "bower": "^1.3.1",
+    "grunt": "^0.4.5",
+    "grunt-contrib-concat": "^1.0.0",
     "grunt-contrib-uglify": "^1.0.1",
     "http-server": "^0.6.1",
     "jasmine-core": "^2.3.4",

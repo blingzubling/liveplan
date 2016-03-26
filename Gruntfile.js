@@ -1,24 +1,44 @@
 module.exports = function(grunt) {
-  // Do grunt-related things in here
+    // Do grunt-related things in here
 
-// Project configuration.
-  grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
-    uglify: {
-      options: {
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
-      },
-      build: {
-        src: 'src/<%= pkg.name %>.js',
-        dest: 'build/<%= pkg.name %>.min.js'
-      }
-    }
-  });
+    // Project configuration.
+    grunt.initConfig({
+        pkg: grunt.file.readJSON('package.json'),
 
-  // Load the plugin that provides the "uglify" task.
-  grunt.loadNpmTasks('grunt-contrib-uglify');
+        concat: {
+            options: {
+                // define a string to put between each file in the concatenated output
+                separator: ';'
+            },
+            dist: {
+                // the files to concatenate
+                src: [
+                    'app/view?/*.js',
+                    '!app/view?/*_test.js'
+                ],
+                // the location of the resulting JS file
+                dest: 'dist/<%= pkg.name %>.js'
+            }
+        },
 
-  // Default task(s).
-  grunt.registerTask('default', ['uglify']);
+        uglify: {
+            options: {
+                // the banner is inserted at the top of the output
+                banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+            },
+            dist: {
+                files: {
+                    'dist/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
+                }
+            }
+        }
+    });
+
+    grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+
+    grunt.registerTask('concat', ['concat']);
+    grunt.registerTask('ugly', ['uglify']);
+    grunt.registerTask('default', ['concat','uglify']);   
 
 };
