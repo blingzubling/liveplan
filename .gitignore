@@ -8,3 +8,6 @@ tmp
 liveplan-sublime.sublime-project
 liveplan-sublime.sublime-workspace
 dist/
+app/data/*.json
+app/data/example/
+howto
