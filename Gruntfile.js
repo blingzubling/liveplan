@@ -24,7 +24,9 @@ module.exports = function(grunt) {
         uglify: {
             options: {
                 // the banner is inserted at the top of the output
-                banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+                banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n',
+                sourceMap: true,
+                sourceMapName: 'dist/<%= pkg.name %>.min.js.map'
             },
             dist: {
                 files: {
@@ -37,8 +39,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
 
-    grunt.registerTask('concat', ['concat']);
-    grunt.registerTask('ugly', ['uglify']);
-    grunt.registerTask('default', ['concat','uglify']);   
+    grunt.registerTask('verbinde', ['concat:dist']);
+    grunt.registerTask('verrausche', ['uglify:dist']);
+    grunt.registerTask('deploy', ['verbinde', 'verrausche']);
 
 };
