@@ -14,11 +14,17 @@ describe('myApp.math.nice module', function() {
         it('should exist', function() {
             expect(niceParserService).toBeDefined();
             expect(niceParserService.parse).toBeDefined();
+            expect(niceParserService.uuid2name).toBeDefined();
         });
 
         it('should display multiply, add and parantheses', function() {
             var result = niceParserService.parse('B 3|E@ 5| 4||||');
             expect(result).toEqual('3*(5+4)');
+        });
+
+        it('should return info for unparsable input', function() {
+            var result = niceParserService.parse('B 3|E@ 5|');
+            expect(result).toEqual('(parse error)');
         });
 
         it('should replace uuids by object names', function () {
