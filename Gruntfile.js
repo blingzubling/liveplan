@@ -33,14 +33,27 @@ module.exports = function(grunt) {
                     'dist/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
                 }
             }
+        },
+
+        // wrap my modules with define 
+        wrap: {
+            basic: {
+                src: ['app/components/math/niceParser.js'],
+                dest: 'app/components/math/niceParser.js',
+                options: {
+                    wrapper: ['(function() {\n  var ', '\n})();']
+                }
+            }
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-wrap');
 
     grunt.registerTask('verbinde', ['concat:dist']);
     grunt.registerTask('verrausche', ['uglify:dist']);
     grunt.registerTask('deploy', ['verbinde', 'verrausche']);
 
+    grunt.registerTask('niceParser', ['wrap']);
 };
