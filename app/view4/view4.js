@@ -9,7 +9,7 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource'])
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider
         .when('/view4', {
-            redirectTo: '/process/{D57CCB0C-9E31-44BD-9A3C-F729891B56DF}'
+            redirectTo: '/process/{D3417EFB-715A-440C-86A1-1AFBE76E6801}'
         })
         .when('/process/:guid', {
             templateUrl: 'view4/view4.html',
