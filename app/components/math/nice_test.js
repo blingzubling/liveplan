@@ -16,5 +16,9 @@ describe('myApp.math.nice module', function() {
             expect(niceParserService.parse).toBeDefined();
         });
 
+        it('should display multiply, add and parantheses', function() {
+            var result = niceParserService.parse('B 3|E@ 5| 4||||');
+            expect(result).toEqual('3*(5+4)');
+        });
     });
 });
