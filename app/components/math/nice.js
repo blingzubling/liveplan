@@ -2027,6 +2027,10 @@
     .service('niceParserService', function() {
 
         var parse = function(input) {
+            if(input===''){
+                return '';
+            }
+            
         	var result = '(parse error)';
         	try {
 	            result = internalParser.parse(input);

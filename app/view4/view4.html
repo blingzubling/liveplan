@@ -8,6 +8,27 @@
 </svg>
 
 <div>
+  <h4>Parameters</h4>
+  <table>
+    <th>Name</th>    
+    <th>Formula</th>
+    <th>Value</th>
+    <th>Min</th>
+    <th>Max</th>
+    <th>Std.Dev</th>
+    <th>Comment, unit, defaults</th>
+
+    <tr ng-repeat="item in aProcess.parameters | orderBy: 'name'">
+      <td>{{item.name}}</td>      
+      <td>{{item.token | niceFormula}}  </td>      
+      <td>{{item.value}}</td>
+      <td>{{item.min}}</td>
+      <td>{{item.max}}</td>
+      <td>{{item.standardDeviation}}</td>
+      <td>{{item.comment}}</td>
+    </tr>
+  </table>
+
   <h4>Inputs</h4>
   <table>
     <th>Amount</th>    
@@ -28,4 +49,3 @@
     </tr>
   </table>
 </div>
-

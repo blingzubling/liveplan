@@ -23,8 +23,14 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource'])
     });
 }])
 
-.controller('View4Ctrl', ['$scope', '$http', '$routeParams', 'gabiObject', 'gemeinsamService', 'niceParserService',
-    function($scope, $http, $routeParams, gabiObject, gemeinsamService, niceParserService) {
+.filter('niceFormula', ['niceParserService', function (niceParserService) {
+    return function(token) {
+        return niceParserService.parse(token);
+    };
+}])
+
+.controller('View4Ctrl', ['$scope', '$http', '$routeParams', 'gabiObject', 'gemeinsamService',
+    function($scope, $http, $routeParams, gabiObject, gemeinsamService) {
 
         $scope.gemeinsam = gemeinsamService;
         

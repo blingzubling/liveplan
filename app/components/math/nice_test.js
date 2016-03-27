@@ -22,6 +22,11 @@ describe('myApp.math.nice module', function() {
             expect(result).toEqual('3*(5+4)');
         });
 
+        it('should return empty result string for empty input', function() {
+            var result = niceParserService.parse('');
+            expect(result).toEqual('');
+        });
+        
         it('should return info for unparsable input', function() {
             var result = niceParserService.parse('B 3|E@ 5|');
             expect(result).toEqual('(parse error)');
