@@ -2024,7 +2024,7 @@
 
     angular.module('myApp.math.nice', [])
 
-    .factory('niceParserService', function() {
+    .service('niceParserService', function() {
 
         var parse = function(input) {
         	var result = '(parse error)';

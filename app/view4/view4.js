@@ -23,8 +23,8 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource'])
     });
 }])
 
-.controller('View4Ctrl', ['$scope', '$http', '$routeParams', 'gabiObject', 'gemeinsamService',
-    function($scope, $http, $routeParams, gabiObject, gemeinsamService) {
+.controller('View4Ctrl', ['$scope', '$http', '$routeParams', 'gabiObject', 'gemeinsamService', 'niceParserService',
+    function($scope, $http, $routeParams, gabiObject, gemeinsamService, niceParserService) {
 
         $scope.gemeinsam = gemeinsamService;
         
@@ -83,7 +83,7 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource'])
                     michelangelo($scope.aProcess);
                 },
                 function(responseFail) {
-                    $scope.gemeinsam.message = 'ups, process fetching failed ...';
+                    $scope.gemeinsam.message = 'ups, fetching process ' + guid + ' failed ...';
                     $scope.failData = responseFail;
                     autsch(responseFail);
                 }
