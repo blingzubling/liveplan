@@ -1,11 +1,24 @@
  (function() {
      angular.module('myApp.math.params', [])
 
-     .service('addNiceToParamsService', function() {
+     .factory('paramsService', ['niceParserService', function(niceParserService) {
 
-     	return {
-     		add: 1
-     	};
+         var internalFn = function(parameter) {
+         	var humanReadable = niceParserService.parse(parameter.token);
+             _.extend(parameter, {
+                 tokenReadable: humanReadable
+             });
+         };
 
-     })
+         var internalFnAry = function(parameters) {
+         	_.each(parameters, internalFn);
+         };
+
+         return {
+             extendParameterArrayWithReadableToken: internalFnAry,
+             extendParameterWithReadableToken: internalFn
+         };
+
+     }])
+
  })();

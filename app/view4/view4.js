@@ -4,7 +4,7 @@
 
 'use strict';
 
-angular.module('myApp.view4', ['ngRoute', 'ngResource', 'ui.grid'])
+angular.module('myApp.view4', ['ngRoute', 'ngResource', 'ui.grid', 'myApp.math.params'])
 
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider
@@ -29,8 +29,8 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource', 'ui.grid'])
     };
 }])
 
-.controller('View4Ctrl', ['$scope', '$http', '$routeParams', 'gabiObject', 'gemeinsamService',
-    function($scope, $http, $routeParams, gabiObject, gemeinsamService) {
+.controller('View4Ctrl', ['$scope', '$http', '$routeParams', 'gabiObject', 'gemeinsamService', 'paramsService',
+    function($scope, $http, $routeParams, gabiObject, gemeinsamService, paramsService) {
 
         $scope.gemeinsam = gemeinsamService;
 
@@ -74,6 +74,19 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource', 'ui.grid'])
             });
         };
 
+        var initParametersGrid = function() {
+                    $scope.gridOptions = { 
+                       columnDefs: [{ field: 'name',            displayName: 'Name'     , width: 120 },
+                                    { field: 'tokenReadable',   displayName: 'Formula'  , width: 320 },
+                                    { field: 'value',           displayName: 'Value'    , width: 120 },
+                                    { field: 'min',             displayName: 'Min'      , width: 80 },
+                                    { field: 'max',             displayName: 'Max'      , width: 80 },
+                                    { field: 'standardDeviation', displayName: 'StdDev' , width: 80 },
+                                    { field: 'comment',         displayName: 'Comment' }
+                                    ] };
+
+                                };
+
         var fetch = function($scope) {
 
             var rp = $routeParams;
@@ -86,6 +99,8 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource', 'ui.grid'])
                 function(responseOK) {
                     $scope.gemeinsam.message = responseOK['name'];
                     $scope.aProcess = responseOK;
+                    paramsService.extendParameterArrayWithReadableToken($scope.aProcess.parameters);
+                    $scope.gridOptions.data = $scope.aProcess.parameters;
                     michelangelo($scope.aProcess);
                 },
                 function(responseFail) {
@@ -95,16 +110,9 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource', 'ui.grid'])
                 }
             );
         };
+
+        initParametersGrid();
         fetch($scope);
 
-        $scope.gridOptions = { 
-                       columnDefs: [{ field: 'name',      displayName: 'Name'           , width: 120 },
-                                    { field: 'token',     displayName: 'Formula'        , width: 320 },
-                                    { field: 'value',     displayName: 'Value'          , width: 120 },
-                                    { field: 'min',       displayName: 'Min'            , width: 80 },
-                                    { field: 'max',       displayName: 'Max'            , width: 80 },
-                                    { field: 'standardDeviation', displayName: 'StdDev' , width: 80 },
-                                    { field: 'comment',   displayName: 'Comment'         }
-                                    ] };
     }
 ]);
