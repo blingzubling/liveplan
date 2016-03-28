@@ -4,7 +4,7 @@
 
 'use strict';
 
-angular.module('myApp.view4', ['ngRoute', 'ngResource'])
+angular.module('myApp.view4', ['ngRoute', 'ngResource', 'ui.grid'])
 
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider
@@ -23,7 +23,7 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource'])
     });
 }])
 
-.filter('niceFormula', ['niceParserService', function (niceParserService) {
+.filter('niceFormula', ['niceParserService', function(niceParserService) {
     return function(token) {
         return niceParserService.parse(token);
     };
@@ -33,7 +33,7 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource'])
     function($scope, $http, $routeParams, gabiObject, gemeinsamService) {
 
         $scope.gemeinsam = gemeinsamService;
-        
+
         var addFlowName = function(io) {
             var guid = {
                 guid: io['flow-ref']
@@ -64,7 +64,7 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource'])
             _.map(processJson.inputFlows, addFlowName);
             _.map(processJson.outputFlows, addFlowName);
         };
-        
+
         var autsch = function(failData) {
             var s = Snap('#owProcess');
             var txt = failData.status + ' ' + failData.statusText;
@@ -96,5 +96,22 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource'])
             );
         };
         fetch($scope);
+
+        $scope.myData = [{
+            "firstName": "Cox",
+            "lastName": "Carney",
+            "company": "Enormo",
+            "employed": true
+        }, {
+            "firstName": "Lorraine",
+            "lastName": "Wise",
+            "company": "Comveyer",
+            "employed": false
+        }, {
+            "firstName": "Nancy",
+            "lastName": "Waters",
+            "company": "Fuelton",
+            "employed": false
+        }];
     }
 ]);

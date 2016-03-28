@@ -28,3 +28,8 @@
   content: "";
   padding: 0;
 }
+
+.grid.parameter {
+    width: 500px;
+    height: 250px;
+}
