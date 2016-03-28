@@ -20,7 +20,7 @@
 
     <tr ng-repeat="item in aProcess.parameters | orderBy: 'name'">
       <td>{{item.name}}</td>      
-      <td>{{item.token | niceFormula}}  </td>      
+      <td>{{item.token | niceFormula}}</td>      
       <td>{{item.value}}</td>
       <td>{{item.min}}</td>
       <td>{{item.max}}</td>
@@ -50,4 +50,6 @@
   </table>
 </div>
 
-<div ui-grid="{ data: myData }" class="grid.parameter"></div>
+<div id="grid1" ui-grid="gridOptions" class="myParameter"></div>
+
+<pre>{{aProcess | json }}</pre>

@@ -1,17 +1,20 @@
 'use strict';
 
-describe('myApp.view3 module', function() {
+describe('myApp.view4 module', function() {
 
-  beforeEach(module('myApp.view4'));
+    beforeEach(module('myApp.math.params'));
 
-  describe('view4 controller', function(){
+    describe('process parameter appender service', function() {
 
-/*
-    it('should ....', inject(function($controller) {
-      //spec body
-      var view4Ctrl = $controller('View4Ctrl');
-      expect(view4Ctrl).toBeDefined();
-    }));
-*/
-  });
+        var addNiceToParamsService;
+
+        beforeEach(inject(function(_addNiceToParamsService_) {
+            addNiceToParamsService = _addNiceToParamsService_;
+        }));
+
+        it('should exist', function() {
+        	expect(addNiceToParamsService).toBeDefined();
+        	expect(addNiceToParamsService.add).toBeDefined();
+        });
+    });
 });

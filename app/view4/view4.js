@@ -97,21 +97,14 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource', 'ui.grid'])
         };
         fetch($scope);
 
-        $scope.myData = [{
-            "firstName": "Cox",
-            "lastName": "Carney",
-            "company": "Enormo",
-            "employed": true
-        }, {
-            "firstName": "Lorraine",
-            "lastName": "Wise",
-            "company": "Comveyer",
-            "employed": false
-        }, {
-            "firstName": "Nancy",
-            "lastName": "Waters",
-            "company": "Fuelton",
-            "employed": false
-        }];
+        $scope.gridOptions = { 
+                       columnDefs: [{ field: 'name',      displayName: 'Name'           , width: 120 },
+                                    { field: 'token',     displayName: 'Formula'        , width: 320 },
+                                    { field: 'value',     displayName: 'Value'          , width: 120 },
+                                    { field: 'min',       displayName: 'Min'            , width: 80 },
+                                    { field: 'max',       displayName: 'Max'            , width: 80 },
+                                    { field: 'standardDeviation', displayName: 'StdDev' , width: 80 },
+                                    { field: 'comment',   displayName: 'Comment'         }
+                                    ] };
     }
 ]);
