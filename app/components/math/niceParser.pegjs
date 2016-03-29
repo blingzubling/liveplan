@@ -5,11 +5,15 @@ start
   = token
 
 token
-  =	token_CONST
-	/ token_COMPLEX
+  = token_CONST
+  / token_VAR
+  / token_COMPLEX
 
 token_CONST
   = " " value:number MATH_CHAR_TOKENSEPARATOR { return value; }
+
+token_VAR
+  = "!" variable:identifier MATH_CHAR_TOKENSEPARATOR { return variable; }
 
 token_COMPLEX
   = Addition
@@ -33,6 +37,10 @@ token_COMPLEX
   / FuncCOSH
   / FuncTANH
   / FuncCOTAN
+  / FuncExp
+  / FuncUnknown1
+  / FuncUnknown2
+  / FuncUnknown3
 
 Addition
   = "@" first:token second:token MATH_CHAR_TOKENSEPARATOR { return first + "+" + second; }
@@ -108,6 +116,18 @@ FuncTANH "FuncTANH"
 FuncCOTAN "FuncCOTAN"
   = "V" argument:token MATH_CHAR_TOKENSEPARATOR { return "cot(" + argument + ")"; }
 
+FuncExp "FuncExp"
+  = "b" argument:token MATH_CHAR_TOKENSEPARATOR { return "exp(" + argument + ")"; }
+
+FuncUnknown1 "FuncUnknown1"
+  = id:. arg1:token MATH_CHAR_TOKENSEPARATOR { return "?" + id + "?(" + arg1 + ")"; }
+
+FuncUnknown2 "FuncUnknown2"
+  = id:. arg1:token arg2:token MATH_CHAR_TOKENSEPARATOR { return "?" + id + "?(" + arg1 + ", " + arg2 + ")"; }
+
+FuncUnknown3 "FuncUnknown3"
+  = id:. arg1:token arg2:token arg3:token MATH_CHAR_TOKENSEPARATOR { return "?" + id + "?(" + arg1 + ", " + arg2 + ", " + arg3 + ")"; }
+
 BoolExpression
   = CompareEQ
   / CompareNEQ
@@ -126,3 +146,6 @@ number "number"
 
 digits "digits"
   = digits:[0-9]+ { return digits.join(""); }
+
+identifier "identifier"
+  = chars:[A-z0-9_]+ { return chars.join(""); }
