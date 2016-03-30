@@ -34,6 +34,8 @@
     height: 300px;
 }
 
+.token_VAR { color: rgb(51,56,194); font-weight: normal; }
+
 table {
     border-collapse: collapse;
     margin-left: 10px;

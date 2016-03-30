@@ -41,7 +41,7 @@ niceParser = (function() {
         peg$c2 = function(value) { return value; },
         peg$c3 = "!",
         peg$c4 = { type: "literal", value: "!", description: "\"!\"" },
-        peg$c5 = function(variable) { return '<span><font color="blue">' + variable + '</font></span>'; },
+        peg$c5 = function(variable) { return '<span class="token_VAR">' + variable + '</span>'; },
         peg$c6 = "@",
         peg$c7 = { type: "literal", value: "@", description: "\"@\"" },
         peg$c8 = function(first, second) { return first + "+" + second; },

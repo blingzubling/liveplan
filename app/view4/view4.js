@@ -26,7 +26,7 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource', 'ngSanitize', 'smart-tab
 .filter('niceFormula', ['$sce', 'niceParserService', function($sce, niceParserService) {
     return function(token) {
         var result = niceParserService.parse(token);
-        return $sce.trustAsHtml( result );
+        return $sce.trustAsHtml(result);
     };
 }])
 
