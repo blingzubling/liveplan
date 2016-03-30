@@ -22,8 +22,8 @@
       <td>{{item.name}}</td>      
       <td>{{item.token | niceFormula}}</td>      
       <td>{{item.value}}</td>
-      <td>{{item.min}}</td>
-      <td>{{item.max}}</td>
+      <td>{{item.min | niceEmptyValue}}</td>
+      <td>{{item.max | niceEmptyValue}}</td>
       <td>{{item.standardDeviation}}</td>
       <td>{{item.comment}}</td>
     </tr>

@@ -29,6 +29,16 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource', 'ui.grid', 'myApp.math.p
     };
 }])
 
+.filter('niceEmptyValue', [function(){
+    return function(value) {
+        if (value===-9999.125) {
+            return '';
+        } else {
+            return value;
+        }
+    };
+}])
+
 .controller('View4Ctrl', ['$scope', '$http', '$routeParams', 'gabiObject', 'gemeinsamService', 'paramsService',
     function($scope, $http, $routeParams, gabiObject, gemeinsamService, paramsService) {
 
@@ -77,7 +87,7 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource', 'ui.grid', 'myApp.math.p
         var initParametersGrid = function() {
                     $scope.gridOptions = { 
                        columnDefs: [{ field: 'name',            displayName: 'Name'     , width: 120 },
-                                    { field: 'tokenReadable',   displayName: 'Formula'  , width: 320 },
+                                    { field: 'tokenReadable',   displayName: 'Formula'  , width: 720 },
                                     { field: 'value',           displayName: 'Value'    , width: 120 },
                                     { field: 'min',             displayName: 'Min'      , width: 80 },
                                     { field: 'max',             displayName: 'Max'      , width: 80 },
