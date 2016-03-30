@@ -25,7 +25,8 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource', 'ui.grid', 'smart-table'
 
 .filter('niceFormula', ['niceParserService', function(niceParserService) {
     return function(token) {
-        return niceParserService.parse(token);
+        var result = '<span>' + niceParserService.parse(token) + '</span>';
+        return result;
     };
 }])
 
@@ -38,6 +39,13 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource', 'ui.grid', 'smart-table'
         }
     };
 }])
+
+.directive("w3TestDirective", function() {
+    return {
+        restrict : 'AEC',
+        template : '<span><font color="blue">nice blue</span>'
+    };
+})
 
 .controller('View4Ctrl', ['$scope', '$http', '$routeParams', 'gabiObject', 'gemeinsamService', 'paramsService',
     function($scope, $http, $routeParams, gabiObject, gemeinsamService, paramsService) {
