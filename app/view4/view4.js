@@ -4,7 +4,7 @@
 
 'use strict';
 
-angular.module('myApp.view4', ['ngRoute', 'ngResource', 'ui.grid', 'myApp.math.params'])
+angular.module('myApp.view4', ['ngRoute', 'ngResource', 'ui.grid', 'smart-table', 'myApp.math.params'])
 
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider
