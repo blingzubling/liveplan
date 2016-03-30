@@ -13,7 +13,7 @@ token_CONST
   = " " value:number MATH_CHAR_TOKENSEPARATOR { return value; }
 
 token_VAR
-  = "!" variable:identifier MATH_CHAR_TOKENSEPARATOR { return variable; }
+  = "!" variable:identifier MATH_CHAR_TOKENSEPARATOR { return '<span><font color="blue">' + variable + '</font></span>'; }
 
 token_COMPLEX
   = Addition

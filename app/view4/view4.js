@@ -4,7 +4,7 @@
 
 'use strict';
 
-angular.module('myApp.view4', ['ngRoute', 'ngResource', 'ui.grid', 'smart-table', 'myApp.math.params'])
+angular.module('myApp.view4', ['ngRoute', 'ngResource', 'ngSanitize', 'smart-table', 'myApp.math.params'])
 
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider
@@ -23,10 +23,10 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource', 'ui.grid', 'smart-table'
     });
 }])
 
-.filter('niceFormula', ['niceParserService', function(niceParserService) {
+.filter('niceFormula', ['$sce', 'niceParserService', function($sce, niceParserService) {
     return function(token) {
-        var result = '<span>' + niceParserService.parse(token) + '</span>';
-        return result;
+        var result = niceParserService.parse(token);
+        return $sce.trustAsHtml( result );
     };
 }])
 
@@ -39,13 +39,6 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource', 'ui.grid', 'smart-table'
         }
     };
 }])
-
-.directive("w3TestDirective", function() {
-    return {
-        restrict : 'AEC',
-        template : '<span><font color="blue">nice blue</span>'
-    };
-})
 
 .controller('View4Ctrl', ['$scope', '$http', '$routeParams', 'gabiObject', 'gemeinsamService', 'paramsService',
     function($scope, $http, $routeParams, gabiObject, gemeinsamService, paramsService) {
