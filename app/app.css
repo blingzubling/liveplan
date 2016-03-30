@@ -33,3 +33,19 @@
     width: 1200px;
     height: 300px;
 }
+
+table {
+    border-collapse: collapse;
+    margin-left: 10px;
+}
+
+table, th, td {
+    border: 1px solid silver;
+}
+
+th, td {
+    padding: 4px;
+    text-align: left;
+}
+
+tr:nth-child(even) {background-color: #E5F8FF}
