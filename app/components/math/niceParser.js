@@ -38,7 +38,7 @@ niceParser = (function() {
 
         peg$c0 = " ",
         peg$c1 = { type: "literal", value: " ", description: "\" \"" },
-        peg$c2 = function(value) { return value; },
+        peg$c2 = function(value) { return '<span class="token_CONST">' + value  + '</span>'; },
         peg$c3 = "!",
         peg$c4 = { type: "literal", value: "!", description: "\"!\"" },
         peg$c5 = function(variable) { return '<span class="token_VAR">' + variable + '</span>'; },

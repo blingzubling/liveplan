@@ -10,7 +10,7 @@ token
   / token_COMPLEX
 
 token_CONST
-  = " " value:number MATH_CHAR_TOKENSEPARATOR { return value; }
+  = " " value:number MATH_CHAR_TOKENSEPARATOR { return '<span class="token_CONST">' + value  + '</span>'; }
 
 token_VAR
   = "!" variable:identifier MATH_CHAR_TOKENSEPARATOR { return '<span class="token_VAR">' + variable + '</span>'; }
