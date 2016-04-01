@@ -29,10 +29,23 @@
   padding: 0;
 }
 
+
+.st-sort-ascent:before{
+  content: '\25B2';
+}
+
+.st-sort-descent:before{
+  content: '\25BC';
+}
+
 .myParameter {
     width: 1200px;
     height: 300px;
 }
+
+.token_CONST { color: rgb(163,0,173); font-weight: normal; }
+
+.token_VAR { color: rgb(51,56,194); font-weight: normal; }
 
 table {
     border-collapse: collapse;

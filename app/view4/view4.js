@@ -4,7 +4,7 @@
 
 'use strict';
 
-angular.module('myApp.view4', ['ngRoute', 'ngResource', 'ui.grid', 'smart-table', 'myApp.math.params'])
+angular.module('myApp.view4', ['ngRoute', 'ngResource', 'ngSanitize', 'smart-table', 'myApp.math.params'])
 
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider
@@ -23,15 +23,16 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource', 'ui.grid', 'smart-table'
     });
 }])
 
-.filter('niceFormula', ['niceParserService', function(niceParserService) {
+.filter('niceFormula', ['$sce', 'niceParserService', function($sce, niceParserService) {
     return function(token) {
-        return niceParserService.parse(token);
+        var result = niceParserService.parse(token);
+        return $sce.trustAsHtml(result);
     };
 }])
 
-.filter('niceEmptyValue', [function(){
+.filter('niceEmptyValue', [function() {
     return function(value) {
-        if (value===-9999.125) {
+        if (value === -9999.125) {
             return '';
         } else {
             return value;
@@ -43,6 +44,9 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource', 'ui.grid', 'smart-table'
     function($scope, $http, $routeParams, gabiObject, gemeinsamService, paramsService) {
 
         $scope.gemeinsam = gemeinsamService;
+
+        $scope.rowCollection = [];
+        $scope.displayedCollection = [].concat($scope.rowCollection);
 
         var addFlowName = function(io) {
             var guid = {
@@ -84,19 +88,6 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource', 'ui.grid', 'smart-table'
             });
         };
 
-        var initParametersGrid = function() {
-                    $scope.gridOptions = { 
-                       columnDefs: [{ field: 'name',            displayName: 'Name'     , width: 120 },
-                                    { field: 'tokenReadable',   displayName: 'Formula'  , width: 720 },
-                                    { field: 'value',           displayName: 'Value'    , width: 120 },
-                                    { field: 'min',             displayName: 'Min'      , width: 80 },
-                                    { field: 'max',             displayName: 'Max'      , width: 80 },
-                                    { field: 'standardDeviation', displayName: 'StdDev' , width: 80 },
-                                    { field: 'comment',         displayName: 'Comment' }
-                                    ] };
-
-                                };
-
         var fetch = function($scope) {
 
             var rp = $routeParams;
@@ -110,7 +101,7 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource', 'ui.grid', 'smart-table'
                     $scope.gemeinsam.message = responseOK['name'];
                     $scope.aProcess = responseOK;
                     paramsService.extendParameterArrayWithReadableToken($scope.aProcess.parameters);
-                    $scope.gridOptions.data = $scope.aProcess.parameters;
+                    $scope.rowCollection = $scope.aProcess.parameters;
                     michelangelo($scope.aProcess);
                 },
                 function(responseFail) {
@@ -121,8 +112,6 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource', 'ui.grid', 'smart-table'
             );
         };
 
-        initParametersGrid();
         fetch($scope);
-
     }
 ]);
