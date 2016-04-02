@@ -41,7 +41,7 @@ describe('myApp.math.params module', function() {
             // assert
             var newEntry = aParametrizedObject.parameters[0].tokenReadable;
             expect(newEntry).toBeDefined();
-            expect(newEntry).toEqual('3*(5+4)^0.7');
+            expect(newEntry).toEqual('<span class="token_CONST">3</span>*(<span class="token_CONST">5</span>+<span class="token_CONST">4</span>)^<span class="token_CONST">0.7</span>');
         });
 
         it('should extend parameters array elements with readable token', function() {
@@ -65,7 +65,7 @@ describe('myApp.math.params module', function() {
             // assert
             var newEntry = aParametrizedObject.parameters[0].tokenReadable;
             expect(newEntry).toBeDefined();
-            expect(newEntry).toEqual('3*(5+4)^0.7');
+            expect(newEntry).toEqual('<span class="token_CONST">3</span>*(<span class="token_CONST">5</span>+<span class="token_CONST">4</span>)^<span class="token_CONST">0.7</span>');
         });
 
     });

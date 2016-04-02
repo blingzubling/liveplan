@@ -19,7 +19,7 @@ describe('myApp.math.nice module', function() {
 
         it('should display multiply, add and parantheses', function() {
             var result = niceParserService.parse('B 3|E@ 5| 4||||');
-            expect(result).toEqual('3*(5+4)');
+            expect(result).toEqual('<span class="token_CONST">3</span>*(<span class="token_CONST">5</span>+<span class="token_CONST">4</span>)');
         });
 
         it('should return empty result string for empty input', function() {
