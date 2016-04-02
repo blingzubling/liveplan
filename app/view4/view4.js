@@ -45,9 +45,6 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource', 'ngSanitize', 'smart-tab
 
         $scope.gemeinsam = gemeinsamService;
 
-        $scope.rowCollection = [];
-        $scope.displayedCollection = [].concat($scope.rowCollection);
-
         var addFlowName = function(io) {
             var guid = {
                 guid: io['flow-ref']
@@ -101,7 +98,7 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource', 'ngSanitize', 'smart-tab
                     $scope.gemeinsam.message = responseOK['name'];
                     $scope.aProcess = responseOK;
                     paramsService.extendParameterArrayWithReadableToken($scope.aProcess.parameters);
-                    $scope.rowCollection = $scope.aProcess.parameters;
+                    $scope.displayedParameters = [].concat($scope.aProcess.parameters);
                     michelangelo($scope.aProcess);
                 },
                 function(responseFail) {
