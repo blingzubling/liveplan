@@ -7,8 +7,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="owProcess" width="800" height="40">
 </svg>
 
-<div w3-test-directive></div>
-
 <div>
   <h4>Parameters</h4>
   <table st-table="displayedParameters" st-safe-src="aProcess.parameters" class="table table-striped">
@@ -36,27 +34,42 @@
     </tbody>
   </table>
 
-  <h4>Inputs</h4>
-  <table>
-    <th>Amount</th>    
-    <th>Flow Name</th>
-    <tr ng-repeat="item in aProcess.inputFlows | orderBy: 'resolvedFlowName'">
-      <td>{{item.amount}}</td>      
-      <td>{{item["resolvedFlowName"]}}</td>
-    </tr>
-  </table>
-  
+  <section>
+    <ul class="nav nav-tabs">
+      <li ng-click="tab.select('tbLCA')"  ng-class="tab.isSelected('tbLCA') ? 'active' : ''">  <a href="">LCA</a> </li>
+      <li ng-click="tab.select('tbDocu')" ng-class="tab.isSelected('tbDocu') ? 'active' : ''"> <a href="">Documentation</a> </li>
+    </ul>  
+  </section>
+
+  <div class="panel" ng-show="tab.isSelected('tbLCA')">
+    <h4>Inputs</h4>
+    <table>
+      <th>Amount</th>    
+      <th>Flow Name</th>
+      <tr ng-repeat="item in aProcess.inputFlows | orderBy: 'resolvedFlowName'">
+        <td>{{item.amount}}</td>      
+        <td>{{item["resolvedFlowName"]}}</td>
+      </tr>
+    </table>    
+
   <h4>Outputs</h4>
   <table>
     <th>Amount</th>    
     <th>Flow Name</th>
     <tr ng-repeat="item in aProcess.outputFlows | orderBy: 'resolvedFlowName'"">
       <td>{{item.amount}}</td>      
-      <td>{{item["resolvedFlowName"]}}</td>
+      <td>{{item.resolvedFlowName}}</td>
     </tr>
   </table>
+  </div>
+
+  <div class="panel" ng-show="tab.isSelected('tbDocu')">
+  </div>
 </div>
 
+
+<!-- 
 <pre>{{displayedCollection | json }}</pre>
 
 <pre>{{aProcess | json }}</pre>
+-->

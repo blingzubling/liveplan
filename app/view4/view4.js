@@ -45,6 +45,18 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource', 'ngSanitize', 'smart-tab
 
         $scope.gemeinsam = gemeinsamService;
 
+        $scope.tab = (function() {
+            var selected = 'tbLCA';
+            return {
+                select: function(tabName) {
+                    selected = tabName;
+                },
+                isSelected: function(tabName) {
+                    return (tabName === selected);
+                }
+            };
+        })();
+
         var addFlowName = function(io) {
             var guid = {
                 guid: io['flow-ref']
