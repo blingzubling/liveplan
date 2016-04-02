@@ -45,6 +45,18 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource', 'ngSanitize', 'smart-tab
 
         $scope.gemeinsam = gemeinsamService;
 
+        $scope.parametersTab = (function() {
+            var selected = 'tbHide'; // tbShowAll
+            return {
+                select: function(tabName) {
+                    selected = tabName;
+                },
+                isSelected: function(tabName) {
+                    return (tabName === selected);
+                }
+            };
+        })();
+
         $scope.tab = (function() {
             var selected = 'tbLCA';
             return {
