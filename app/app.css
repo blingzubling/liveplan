@@ -47,9 +47,16 @@
 
 .token_VAR { color: rgb(51,56,194); font-weight: normal; }
 
+.lm10 {
+    margin-left: 10px;
+}
+
+.rm10 {
+    margin-right: 10px;
+}
+
 table {
     border-collapse: collapse;
-    margin-left: 10px;
     margin-right: 10px;
 }
 
