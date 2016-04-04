@@ -4,7 +4,11 @@
 
 'use strict';
 
-angular.module('myApp.view3', ['ngRoute', 'ngResource'])
+angular.module('myApp.view3', [
+    'ngRoute',
+    'ngResource',
+    'myApp.gabiObject'
+])
 
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider
@@ -17,12 +21,6 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
         });
 }])
 
-.factory('gabiObject', ['$resource', function($resource) {
-    return $resource('data/:guid.json', {
-        guid: '@uuid'
-    });
-}])
-
 .controller('View3Ctrl', ['$scope', '$http', '$routeParams', '$q', 'gabiObject', function($scope, $http, $routeParams, $q, gabiObject) {
 
     var first = function() {
@@ -32,7 +30,7 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
         var r = s.rect(200, 100, 100, 100, 20, 20).attr({
             stroke: '#123456',
             'strokeWidth': 20,
-            fill: 'red', 
+            fill: 'red',
             'opacity': 0.3
         });
 
@@ -165,11 +163,11 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
             ciJson['top'],
             ciJson['width'],
             ciJson['height']).attr({
-                stroke: 'rgb(0,0,0)',
-                'stroke-width': '0.5',
-                'fill': decimalToRGB(ciJson['color']),
-                'fill-opacity': 1.0
-            });
+            stroke: 'rgb(0,0,0)',
+            'stroke-width': '0.5',
+            'fill': decimalToRGB(ciJson['color']),
+            'fill-opacity': 1.0
+        });
         var wrapText = wrap(ciJson['comment'], STANDARD_TEXT_ATTRS, ciJson['width'] - 6);
         var cmt = s.text(ciJson['left'] + 3, ciJson['top'] + 15, wrapText.lines);
         applyStandardFont(cmt, ciJson['left'] + 3, wrapText.lineHeight);
@@ -302,7 +300,7 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
             var pointsTo = _.filter(points, function(point) {
                 return (point.pointId === stretchesItem.endPointId);
             });
-            
+
             return paintStretch(pointsFrom[0], pointsTo[0], color);
         };
     };
@@ -311,7 +309,7 @@ angular.module('myApp.view3', ['ngRoute', 'ngResource'])
         var s = Snap('#owPlan');
 
         var stretchesPainter = paintStretchFromPointsFn(s, fiJson['points'], fiJson['color']);
-        var paintedStretches = $q.all( _.map(fiJson['streches'], stretchesPainter ));
+        var paintedStretches = $q.all(_.map(fiJson['streches'], stretchesPainter));
         return paintedStretches;
     };
 
