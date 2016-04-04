@@ -19,17 +19,16 @@
                  return responseFail;
              }
 
-             function collectFlowGuids(aProcess) {
+             function resolveFlows(aProcess) {
+                 var sigma = $q.defer();
 
-                 var flowGuids = [];
-                 function internalCollect(io) {
-                     flowGuids.push(io['flow-ref']);
-                 }
-
-                 _.map(aProcess['inputFlows'], internalCollect);
-                 _.map(aProcess['outputFlows'], internalCollect);
-
-                 return aProcess.$promise;
+                 $q.all(_.map(aProcess['inputFlows']), function(io) {
+                         return io;
+                     })
+                     .then(function(args) {
+                         sigma.resolve(aProcess.$promise);
+                     });
+                 return sigma.promise;
              }
 
              function get(guid) {
@@ -39,7 +38,7 @@
 
                  return gabiObject.get(guidParam).$promise
                      .then(addReadableParameters, failOne)
-                     .then(collectFlowGuids);
+                     .then(resolveFlows);
              }
 
              return {
