@@ -67,6 +67,13 @@ angular.module('myApp.view4', [
         $scope.parametersTab = tabService.newTab('tbHide');
         $scope.tab = tabService.newTab('tbLCA');
 
+        $scope.displayQnt = function(aQntGuid, aQntAry) {
+            var vQnt = _.find(aQntAry, function(qnt) {
+                return (qnt.uuid === aQntGuid);
+            });
+            return vQnt.name;
+        };
+
         var michelangelo = function(processJson) {
             var s = Snap('#owProcess');
 
@@ -103,7 +110,7 @@ angular.module('myApp.view4', [
                     michelangelo($scope.aProcess);
                 },
                 function(responseFail) {
-                    $scope.gemeinsam.message = 'ups, fetching process ' + guid + ' failed ...';
+                    $scope.gemeinsam.message = 'ups, fetching process ' + rp.guid + ' failed ...';
                     $scope.failData = responseFail;
                     autsch(responseFail);
                 }
