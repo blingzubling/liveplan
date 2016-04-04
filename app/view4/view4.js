@@ -5,11 +5,11 @@
 'use strict';
 
 angular.module('myApp.view4', [
-    'ngRoute', 
-    'ngResource', 
-    'ngSanitize', 
+    'ngRoute',
+    'ngResource',
+    'ngSanitize',
     'smart-table',
-    'myApp.gabiObject', 
+    'myApp.gabiObject',
     'myApp.math.params',
     'myApp.tab'
 ])
@@ -59,8 +59,8 @@ angular.module('myApp.view4', [
     };
 }])
 
-.controller('View4Ctrl', ['$scope', '$http', '$routeParams', 'gabiObject', 'gemeinsamService', 'paramsService', 'tabService',
-    function($scope, $http, $routeParams, gabiObject, gemeinsamService, paramsService, tabService) {
+.controller('View4Ctrl', ['$scope', '$http', '$routeParams', 'gabiObject', 'gabiProcess', 'gemeinsamService', 'paramsService', 'tabService',
+    function($scope, $http, $routeParams, gabiObject, gabiProcess, gemeinsamService, paramsService, tabService) {
 
         $scope.gemeinsam = gemeinsamService;
 
@@ -115,11 +115,10 @@ angular.module('myApp.view4', [
                 guid: rp.guid
             };
 
-            gabiObject.get(guid).$promise.then(
+            gabiProcess.get(rp.guid).then(
                 function(responseOK) {
                     $scope.gemeinsam.message = responseOK['name'];
                     $scope.aProcess = responseOK;
-                    paramsService.extendParameterArrayWithReadableToken($scope.aProcess.parameters);
                     $scope.displayedParameters = [].concat($scope.aProcess.parameters);
                     michelangelo($scope.aProcess);
                 },
