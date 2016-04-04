@@ -111,14 +111,10 @@ angular.module('myApp.view4', [
 
             var rp = $routeParams;
 
-            var guid = {
-                guid: rp.guid
-            };
-
             gabiProcess.get(rp.guid).then(
-                function(responseOK) {
-                    $scope.gemeinsam.message = responseOK['name'];
-                    $scope.aProcess = responseOK;
+                function(responseProcess) {
+                    $scope.gemeinsam.message = responseProcess['name'];
+                    $scope.aProcess = responseProcess;
                     $scope.displayedParameters = [].concat($scope.aProcess.parameters);
                     michelangelo($scope.aProcess);
                 },

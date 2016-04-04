@@ -10,21 +10,26 @@
      .factory('gabiProcess', ['$resource', 'gabiObject', 'paramsService',
          function($resource, gabiObject, paramsService) {
 
-             function get(guid) {
+             function addReadableParameters(responseProcess) {
+                 paramsService.extendParameterArrayWithReadableToken(responseProcess.parameters);
+                 return responseProcess.$promise;
+             }
 
+             function failOne(responseFail) {
+                 return responseFail;
+             }
+
+             function collectFlowGuids(aProcess) {
+                 return '';
+             }
+
+             function get(guid) {
                  var guidParam = {
                      guid: guid
                  };
 
-                 return gabiObject.get(guidParam).$promise.then(
-                     function(responseProcess) {
-                         // paramsService.extendParameterArrayWithReadableToken(responseProcess.parameters);
-                         return responseProcess.$promise;
-                     },
-                     function(responseFail) {
-                         return responseFail;
-                     }
-                 );
+                 return gabiObject.get(guidParam).$promise
+                     .then(addReadableParameters, failOne);
              }
 
              return {
