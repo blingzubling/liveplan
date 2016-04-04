@@ -34,7 +34,13 @@
                  $q.all(_.map(aProcess['inputFlows'], getFlow))
                      .then(function(args) {
                          aProcess.resolvedInputFlows = args;
-                         sigma.resolve(aProcess.$promise);
+                     })
+                     .then(function outputFlows() {
+                         $q.all(_.map(aProcess['outputFlows'], getFlow))
+                             .then(function(args) {
+                                 aProcess.resolvedOutputFlows = args;
+                                 sigma.resolve(aProcess.$promise);
+                             });
                      });
                  return sigma.promise;
              }
