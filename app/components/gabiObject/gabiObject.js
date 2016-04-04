@@ -20,12 +20,20 @@
              }
 
              function resolveFlows(aProcess) {
+
+                 function getFlow(io) {
+                     console.log('getFlow(io) ' + io['flow-ref']);
+                     var guidParam = {
+                         guid: io['flow-ref']
+                     };
+                     return gabiObject.get(guidParam).$promise;
+                 }
+
                  var sigma = $q.defer();
 
-                 $q.all(_.map(aProcess['inputFlows']), function(io) {
-                         return io;
-                     })
+                 $q.all(_.map(aProcess['inputFlows'], getFlow))
                      .then(function(args) {
+                         aProcess.resolvedInputFlows = args;
                          sigma.resolve(aProcess.$promise);
                      });
                  return sigma.promise;
