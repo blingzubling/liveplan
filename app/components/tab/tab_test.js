@@ -21,4 +21,10 @@ describe('tab service', function() {
         expect(result.select).toBeDefined();
         expect(result.isSelected).toBeDefined();
     });
+
+    it('should select a given tab', function() {
+    	var nt = tabService.newTab();
+    	nt.select('tbOne');
+    	expect(nt.isSelected('tbOne')).toBeTruthy();
+    });
 });

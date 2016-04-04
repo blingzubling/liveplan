@@ -5,9 +5,19 @@
      .service('tabService', [function() {
 
          function newTab() {
+             var selected;
+
+             function select(tab) {
+                 selected = tab;
+             }
+
+             function isSelected(value) {
+                 return (value === selected);
+             }
+
              return {
-                 select: '',
-                 isSelected: ''
+                 select: select,
+                 isSelected: isSelected
              };
          }
 
