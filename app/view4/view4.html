@@ -59,7 +59,7 @@
             <th>Comment</th>
             <tr ng-repeat="item in aProcess.inputFlows | orderBy: 'resolvedFlowName'">
                 <td>{{item.parameterName}}</td>                
-                <td>{{item["resolvedFlowName"]}}</td>
+                <td>{{item.resolvedFlow.name}}</td>
                 <td>{{item.amount}}</td>
                 <td>{{item.classification | niceClassification}}</td>
                 <td>{{item.variation | niceVariation}}</td>
@@ -79,7 +79,7 @@
             <th>Comment</th>
             <tr ng-repeat="item in aProcess.outputFlows | orderBy: 'resolvedFlowName'">
                 <td>{{item.parameterName}}</td>                
-                <td>{{item["resolvedFlowName"]}}</td>
+                <td>{{item.resolvedFlow.name}}</td>
                 <td>{{item.amount}}</td>
                 <td>{{item.classification | niceClassification}}</td>
                 <td>{{item.variation | niceVariation}}</td>

@@ -67,20 +67,6 @@ angular.module('myApp.view4', [
         $scope.parametersTab = tabService.newTab('tbHide');
         $scope.tab = tabService.newTab('tbLCA');
 
-        var addFlowName = function(io) {
-            var guid = {
-                guid: io['flow-ref']
-            };
-            gabiObject.get(guid).$promise.then(
-                function(successData) {
-                    io['resolvedFlowName'] = successData['name'];
-                },
-                function(failData) {
-                    console.warn(failData);
-                    io['resolvedFlowName'] = '?';
-                });
-        };
-
         var michelangelo = function(processJson) {
             var s = Snap('#owProcess');
 
@@ -94,8 +80,6 @@ angular.module('myApp.view4', [
                 'fill': '#000000',
                 'font-family': 'Segoe UI'
             });
-            _.map(processJson.inputFlows, addFlowName);
-            _.map(processJson.outputFlows, addFlowName);
         };
 
         var autsch = function(failData) {

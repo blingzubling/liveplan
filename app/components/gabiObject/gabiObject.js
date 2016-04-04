@@ -1,3 +1,4 @@
+ /*global angular*/
  /*global _*/
  (function() {
      angular.module('myApp.gabiObject', [])
@@ -16,7 +17,7 @@
                  return responseProcess.$promise;
              }
 
-             function failOne(responseFail) {
+             function failParameters(responseFail) {
                  return responseFail;
              }
 
@@ -59,8 +60,8 @@
                  };
 
                  return gabiObject.get(guidParam).$promise
-                     .then(addReadableParameters, failOne)
-                     .then(resolveFlows);
+                     .then(resolveFlows)
+                     .then(addReadableParameters, failParameters);
              }
 
              return {
