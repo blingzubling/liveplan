@@ -47,7 +47,7 @@ angular.module('myApp.view4', [
         if (value === 9) {
             return '*';
         } else if (value === 1) {
-            return 'X';
+            return 'x';
         }
         return '';
     };
