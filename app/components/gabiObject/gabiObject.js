@@ -7,8 +7,8 @@
          });
      }])
 
-     .factory('gabiProcess', ['$resource', 'gabiObject', 'paramsService',
-         function($resource, gabiObject, paramsService) {
+     .factory('gabiProcess', ['$resource', '$q', 'gabiObject', 'paramsService',
+         function($resource, $q, gabiObject, paramsService) {
 
              function addReadableParameters(responseProcess) {
                  paramsService.extendParameterArrayWithReadableToken(responseProcess.parameters);
@@ -20,7 +20,16 @@
              }
 
              function collectFlowGuids(aProcess) {
-                 return '';
+
+                 var flowGuids = [];
+                 function internalCollect(io) {
+                     flowGuids.push(io['flow-ref']);
+                 }
+
+                 _.map(aProcess['inputFlows'], internalCollect);
+                 _.map(aProcess['outputFlows'], internalCollect);
+
+                 return aProcess.$promise;
              }
 
              function get(guid) {
@@ -29,7 +38,8 @@
                  };
 
                  return gabiObject.get(guidParam).$promise
-                     .then(addReadableParameters, failOne);
+                     .then(addReadableParameters, failOne)
+                     .then(collectFlowGuids);
              }
 
              return {
