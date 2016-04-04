@@ -53,13 +53,15 @@
         <table>
             <th>Parameter</th>
             <th>Flow</th>
+            <th>Quantity</th>
             <th>Amount</th>
             <th>Tracked</th>
             <th>Std.Dev</th>
             <th>Comment</th>
             <tr ng-repeat="item in aProcess.inputFlows | orderBy: 'resolvedFlowName'">
                 <td>{{item.parameterName}}</td>                
-                <td>{{item["resolvedFlowName"]}}</td>
+                <td>{{item.resolvedFlow.name}}</td>
+                <td>{{displayQnt( item.resolvedFlow['referenceQuantity-ref'], aProcess.resolvedQuantities )}}</td>
                 <td>{{item.amount}}</td>
                 <td>{{item.classification | niceClassification}}</td>
                 <td>{{item.variation | niceVariation}}</td>
@@ -73,13 +75,15 @@
         <table>
             <th>Parameter</th>
             <th>Flow</th>
+            <th>Quantity</th>
             <th>Amount</th>
             <th>Tracked</th>
             <th>Std.Dev</th>
             <th>Comment</th>
             <tr ng-repeat="item in aProcess.outputFlows | orderBy: 'resolvedFlowName'">
                 <td>{{item.parameterName}}</td>                
-                <td>{{item["resolvedFlowName"]}}</td>
+                <td>{{item.resolvedFlow.name}}</td>
+                <td>{{displayQnt( item.resolvedFlow['referenceQuantity-ref'], aProcess.resolvedQuantities )}}</td>
                 <td>{{item.amount}}</td>
                 <td>{{item.classification | niceClassification}}</td>
                 <td>{{item.variation | niceVariation}}</td>
@@ -98,7 +102,7 @@
 
 <!-- 
 <pre>{{displayedCollection | json }}</pre>
-
 <pre>{{aProcess | json }}</pre>
-
 -->
+
+

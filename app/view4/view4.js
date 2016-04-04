@@ -5,11 +5,11 @@
 'use strict';
 
 angular.module('myApp.view4', [
-    'ngRoute', 
-    'ngResource', 
-    'ngSanitize', 
+    'ngRoute',
+    'ngResource',
+    'ngSanitize',
     'smart-table',
-    'myApp.gabiObject', 
+    'myApp.gabiObject',
     'myApp.math.params',
     'myApp.tab'
 ])
@@ -59,26 +59,19 @@ angular.module('myApp.view4', [
     };
 }])
 
-.controller('View4Ctrl', ['$scope', '$http', '$routeParams', 'gabiObject', 'gemeinsamService', 'paramsService', 'tabService',
-    function($scope, $http, $routeParams, gabiObject, gemeinsamService, paramsService, tabService) {
+.controller('View4Ctrl', ['$scope', '$http', '$routeParams', 'gabiObject', 'gabiProcess', 'gemeinsamService', 'paramsService', 'tabService',
+    function($scope, $http, $routeParams, gabiObject, gabiProcess, gemeinsamService, paramsService, tabService) {
 
         $scope.gemeinsam = gemeinsamService;
 
         $scope.parametersTab = tabService.newTab('tbHide');
         $scope.tab = tabService.newTab('tbLCA');
 
-        var addFlowName = function(io) {
-            var guid = {
-                guid: io['flow-ref']
-            };
-            gabiObject.get(guid).$promise.then(
-                function(successData) {
-                    io['resolvedFlowName'] = successData['name'];
-                },
-                function(failData) {
-                    console.warn(failData);
-                    io['resolvedFlowName'] = '?';
-                });
+        $scope.displayQnt = function(aQntGuid, aQntAry) {
+            var vQnt = _.find(aQntAry, function(qnt) {
+                return (qnt.uuid === aQntGuid);
+            });
+            return vQnt.name;
         };
 
         var michelangelo = function(processJson) {
@@ -94,8 +87,6 @@ angular.module('myApp.view4', [
                 'fill': '#000000',
                 'font-family': 'Segoe UI'
             });
-            _.map(processJson.inputFlows, addFlowName);
-            _.map(processJson.outputFlows, addFlowName);
         };
 
         var autsch = function(failData) {
@@ -111,20 +102,15 @@ angular.module('myApp.view4', [
 
             var rp = $routeParams;
 
-            var guid = {
-                guid: rp.guid
-            };
-
-            gabiObject.get(guid).$promise.then(
-                function(responseOK) {
-                    $scope.gemeinsam.message = responseOK['name'];
-                    $scope.aProcess = responseOK;
-                    paramsService.extendParameterArrayWithReadableToken($scope.aProcess.parameters);
+            gabiProcess.get(rp.guid).then(
+                function(responseProcess) {
+                    $scope.gemeinsam.message = responseProcess['name'];
+                    $scope.aProcess = responseProcess;
                     $scope.displayedParameters = [].concat($scope.aProcess.parameters);
                     michelangelo($scope.aProcess);
                 },
                 function(responseFail) {
-                    $scope.gemeinsam.message = 'ups, fetching process ' + guid + ' failed ...';
+                    $scope.gemeinsam.message = 'ups, fetching process ' + rp.guid + ' failed ...';
                     $scope.failData = responseFail;
                     autsch(responseFail);
                 }
