@@ -4,8 +4,8 @@
 
      .service('tabService', [function() {
 
-         function newTab() {
-             var selected;
+         function newTab(preselected) {
+             var selected = preselected;
 
              function select(tab) {
                  selected = tab;

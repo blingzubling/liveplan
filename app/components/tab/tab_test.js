@@ -22,9 +22,14 @@ describe('tab service', function() {
         expect(result.isSelected).toBeDefined();
     });
 
+    it('should accept a preset tab', function() {
+        var nt = tabService.newTab('tbPreselected');
+        expect(nt.isSelected('tbPreselected')).toBeTruthy();
+    });
+
     it('should select a given tab', function() {
-    	var nt = tabService.newTab();
-    	nt.select('tbOne');
-    	expect(nt.isSelected('tbOne')).toBeTruthy();
+        var nt = tabService.newTab();
+        nt.select('tbOne');
+        expect(nt.isSelected('tbOne')).toBeTruthy();
     });
 });
