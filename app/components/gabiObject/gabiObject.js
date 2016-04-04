@@ -1,3 +1,4 @@
+ /*global _*/
  (function() {
      angular.module('myApp.gabiObject', [])
 
@@ -26,19 +27,26 @@
                      var guidParam = {
                          guid: io['flow-ref']
                      };
-                     return gabiObject.get(guidParam).$promise;
+                     var prom = gabiObject.get(guidParam).$promise;
+                     prom.then(
+                         function(flowResponse) {
+                             io['resolvedFlow'] = flowResponse;
+                         },
+                         function(failReponse) {
+                             io['resolvedFlow'] = {
+                                 error: failReponse
+                             };
+                         }
+                     );
+                     return prom;
                  }
 
                  var sigma = $q.defer();
 
                  $q.all(_.map(aProcess['inputFlows'], getFlow))
-                     .then(function(args) {
-                         aProcess.resolvedInputFlows = args;
-                     })
                      .then(function outputFlows() {
                          $q.all(_.map(aProcess['outputFlows'], getFlow))
-                             .then(function(args) {
-                                 aProcess.resolvedOutputFlows = args;
+                             .then(function() {
                                  sigma.resolve(aProcess.$promise);
                              });
                      });
