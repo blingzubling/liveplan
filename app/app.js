@@ -11,7 +11,9 @@ angular.module('myApp', [
   'myApp.view4',
   'myApp.view5',
   'myApp.version',
-  'myApp.math.nice'
+  'myApp.math.nice',
+  'myApp.gabiObject',
+  'myApp.tab'
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.otherwise({redirectTo: '/view1'});

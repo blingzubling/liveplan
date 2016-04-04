@@ -10,7 +10,8 @@ angular.module('myApp.view4', [
     'ngSanitize', 
     'smart-table',
     'myApp.gabiObject', 
-    'myApp.math.params'
+    'myApp.math.params',
+    'myApp.tab'
 ])
 
 .config(['$routeProvider', function($routeProvider) {
@@ -58,34 +59,13 @@ angular.module('myApp.view4', [
     };
 }])
 
-.controller('View4Ctrl', ['$scope', '$http', '$routeParams', 'gabiObject', 'gemeinsamService', 'paramsService',
-    function($scope, $http, $routeParams, gabiObject, gemeinsamService, paramsService) {
+.controller('View4Ctrl', ['$scope', '$http', '$routeParams', 'gabiObject', 'gemeinsamService', 'paramsService', 'tabService',
+    function($scope, $http, $routeParams, gabiObject, gemeinsamService, paramsService, tabService) {
 
         $scope.gemeinsam = gemeinsamService;
 
-        $scope.parametersTab = (function() {
-            var selected = 'tbHide'; // tbShowAll
-            return {
-                select: function(tabName) {
-                    selected = tabName;
-                },
-                isSelected: function(tabName) {
-                    return (tabName === selected);
-                }
-            };
-        })();
-
-        $scope.tab = (function() {
-            var selected = 'tbLCA';
-            return {
-                select: function(tabName) {
-                    selected = tabName;
-                },
-                isSelected: function(tabName) {
-                    return (tabName === selected);
-                }
-            };
-        })();
+        $scope.parametersTab = tabService.newTab('tbHide');
+        $scope.tab = tabService.newTab('tbLCA');
 
         var addFlowName = function(io) {
             var guid = {
