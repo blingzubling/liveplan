@@ -4,7 +4,14 @@
 
 'use strict';
 
-angular.module('myApp.view4', ['ngRoute', 'ngResource', 'ngSanitize', 'smart-table', 'myApp.math.params'])
+angular.module('myApp.view4', [
+    'ngRoute', 
+    'ngResource', 
+    'ngSanitize', 
+    'smart-table',
+    'myApp.gabiObject', 
+    'myApp.math.params'
+])
 
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider
@@ -15,12 +22,6 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource', 'ngSanitize', 'smart-tab
             templateUrl: 'view4/view4.html',
             controller: 'View4Ctrl'
         });
-}])
-
-.factory('gabiObject', ['$resource', function($resource) {
-    return $resource('data/:guid.json', {
-        guid: '@uuid'
-    });
 }])
 
 .filter('niceFormula', ['$sce', 'niceParserService', function($sce, niceParserService) {

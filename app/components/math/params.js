@@ -4,8 +4,8 @@
      .factory('paramsService', ['niceParserService', function(niceParserService) {
 
          var internalFn = function(parameter) {
-         	var humanReadable = niceParserService.parse(parameter.token);
-             _.extend(parameter, {
+            var humanReadable = niceParserService.parse(parameter.token);
+            _.extend(parameter, {
                  tokenReadable: humanReadable
              });
          };
