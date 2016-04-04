@@ -33,7 +33,7 @@
                     <td>{{item.value}}</td>
                     <td>{{item.min | niceEmptyValue}}</td>
                     <td>{{item.max | niceEmptyValue}}</td>
-                    <td>{{item.standardDeviation}}</td>
+                    <td>{{item.standardDeviation | niceVariation}}</td>
                     <td>{{item.comment}}</td>
                 </tr>
             </tbody>
@@ -51,22 +51,40 @@
     <div class="panel" ng-show="tab.isSelected('tbLCA')">
         <h4>Inputs</h4>
         <table>
+            <th>Parameter</th>
+            <th>Flow</th>
             <th>Amount</th>
-            <th>Flow Name</th>
+            <th>Tracked</th>
+            <th>Std.Dev</th>
+            <th>Comment</th>
             <tr ng-repeat="item in aProcess.inputFlows | orderBy: 'resolvedFlowName'">
-                <td>{{item.amount}}</td>
+                <td>{{item.parameterName}}</td>                
                 <td>{{item["resolvedFlowName"]}}</td>
+                <td>{{item.amount}}</td>
+                <td>{{item.classification | niceClassification}}</td>
+                <td>{{item.variation | niceVariation}}</td>
+                <td>{{item.comment}}</td>
             </tr>
         </table>
 
+        <br>
+
         <h4>Outputs</h4>
         <table>
+            <th>Parameter</th>
+            <th>Flow</th>
             <th>Amount</th>
-            <th>Flow Name</th>
-            <tr ng-repeat="item in aProcess.outputFlows | orderBy: 'resolvedFlowName'" ">
-          <td>{{item.amount}}</td>      
-          <td>{{item.resolvedFlowName}}</td>
-        </tr>
+            <th>Tracked</th>
+            <th>Std.Dev</th>
+            <th>Comment</th>
+            <tr ng-repeat="item in aProcess.outputFlows | orderBy: 'resolvedFlowName'">
+                <td>{{item.parameterName}}</td>                
+                <td>{{item["resolvedFlowName"]}}</td>
+                <td>{{item.amount}}</td>
+                <td>{{item.classification | niceClassification}}</td>
+                <td>{{item.variation | niceVariation}}</td>
+                <td>{{item.comment}}</td>
+            </tr>
         </table>
     </div>
 
@@ -81,4 +99,5 @@
 <pre>{{displayedCollection | json }}</pre>
 
 <pre>{{aProcess | json }}</pre>
+
 -->

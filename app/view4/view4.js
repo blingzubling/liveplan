@@ -40,6 +40,23 @@ angular.module('myApp.view4', ['ngRoute', 'ngResource', 'ngSanitize', 'smart-tab
     };
 }])
 
+.filter('niceClassification', [function() {
+    return function(value) {
+        if (value === 9) {
+            return '*';
+        } else if (value === 1) {
+            return 'X';
+        }
+        return '';
+    };
+}])
+
+.filter('niceVariation', [function() {
+    return function(value) {
+        return value + ' %';
+    };
+}])
+
 .controller('View4Ctrl', ['$scope', '$http', '$routeParams', 'gabiObject', 'gemeinsamService', 'paramsService',
     function($scope, $http, $routeParams, gabiObject, gemeinsamService, paramsService) {
 
